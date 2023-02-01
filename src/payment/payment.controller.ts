@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Query } from '@nestjs/common';
+import { Controller, Post, Body, Query, Get } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger/dist';
 import { GeneratePaymentUrlDto, PaymentConfirmationDto } from './dto/payment.dto';
 import { PaymentService } from './payment.service';
@@ -20,7 +20,7 @@ export class PaymentController {
 
 	@ApiOperation({ summary: 'pament confirmation' })
 	@ApiResponse({ status: 201 })
-	@Post('result')
+	@Get('result')
 	result(@Query() query: PaymentConfirmationDto) {
 		console.log(query)
 		return this.roboKassaService.confirmPayment(query);
