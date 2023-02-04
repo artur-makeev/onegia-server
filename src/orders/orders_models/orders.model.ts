@@ -7,6 +7,7 @@ interface OrderCreationAttrs {
 	status: string
 	shippingType: string
 	shippingPrice: string
+	price: number
 }
 
 @Table({ tableName: 'orders' })
@@ -18,6 +19,10 @@ export class Order extends Model<Order, OrderCreationAttrs> {
 	@ApiProperty({ example: 'Complete', description: 'order status' })
 	@Column({ type: DataType.STRING, allowNull: false })
 	status: string
+
+	@ApiProperty({ example: '300', description: 'order products total price' })
+	@Column({ type: DataType.STRING, allowNull: false })
+	price: number
 
 	@HasMany(() => OrderProduct)
 	orderProducts: OrderProduct[];

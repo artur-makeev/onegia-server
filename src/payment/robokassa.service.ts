@@ -1,4 +1,6 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/sequelize';
+import { Order } from 'src/orders/orders_models/orders.model';
 let crypto;
 try {
 	crypto = require('node:crypto');
@@ -25,7 +27,9 @@ interface Config {
 export class RoboKassaService {
 	private config: Config
 
-	constructor() {
+	constructor(
+		@InjectModel(Order) private orderRepository: typeof Order
+	) {
 		this.config = {
 			merchantLogin: process.env.ROBOKASSA_LOGIN,
 			hashingAlgorithm: 'md5',
@@ -72,13 +76,18 @@ export class RoboKassaService {
 	}
 
 
-	confirmPayment({ OutSum, InvId, SignatureValue }: PaymentConfirmationDto) {
+	async confirmPayment({ OutSum, InvId, SignatureValue }: PaymentConfirmationDto) {
 
 		if (this.validateSignature(SignatureValue, OutSum, InvId)) {
-			console.log('payment confirmed')
-			return `OK${InvId}`
+			let order = await this.orderRepository.findOne({ where: { id: InvId } });
+			if (JSON.stringify(order.price) === OutSum) {
+				order.set({ status: 'Оплачен' });
+				order = await order.save();
+				return `OK${InvId}`;
+			}
+			return 'order sum doesnt match';
 		}
-		return 'bad sign'
+		return 'bad sign';
 
 	}
 

@@ -1,13 +1,11 @@
 import { Controller, Post, Body, Query, Get } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger/dist';
 import { GeneratePaymentUrlDto, PaymentConfirmationDto } from './dto/payment.dto';
-import { PaymentService } from './payment.service';
 import { RoboKassaService } from './robokassa.service';
 
 @Controller('api/payment')
 export class PaymentController {
 	constructor(
-		private paymentService: PaymentService,
 		private roboKassaService: RoboKassaService
 	) {}
 
@@ -22,7 +20,6 @@ export class PaymentController {
 	@ApiResponse({ status: 201 })
 	@Get('result')
 	result(@Query() query: PaymentConfirmationDto) {
-		console.log(query)
 		return this.roboKassaService.confirmPayment(query);
 	}
 

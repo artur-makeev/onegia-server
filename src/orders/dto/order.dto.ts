@@ -38,6 +38,10 @@ export class CreateOrderDto {
 	@IsString()
 	readonly shippingPrice: number;
 
+	@ApiProperty({ example: '200', description: 'delivery price' })
+	@IsString()
+	readonly price: number;
+
 	@ApiProperty({ example: '{some fields}', description: 'products in the basket' })
 	@IsString()
 	readonly basketProducts: string;
