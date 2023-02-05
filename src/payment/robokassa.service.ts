@@ -1,5 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
+import { MailService } from 'src/mail_service/mail.service';
 import { Order } from 'src/orders/orders_models/orders.model';
 let crypto;
 try {
@@ -9,6 +10,8 @@ try {
 }
 
 import { GeneratePaymentUrlDto, PaymentConfirmationDto } from './dto/payment.dto';
+import { Payment } from './interfaces/interfaces';
+
 
 interface Config {
 	merchantLogin: string,
@@ -20,14 +23,19 @@ interface Config {
 	testMode: boolean,
 	resultUrlRequestMethod: 'POST',
 	paymentUrlTemplate: string,
-	encoding: 'UTF-8'
+	encoding: 'UTF-8',
+	description: string
+	taxSystem: string
 }
+
+
 
 @Injectable()
 export class RoboKassaService {
 	private config: Config
 
 	constructor(
+		@Inject(MailService) private mailService: MailService,
 		@InjectModel(Order) private orderRepository: typeof Order
 	) {
 		this.config = {
@@ -40,30 +48,43 @@ export class RoboKassaService {
 			testMode: Boolean(+process.env.ROBOKASSA_TEST_MODE),
 			resultUrlRequestMethod: 'POST',
 			paymentUrlTemplate: process.env.ROBOKASSA_API_URL,
-			encoding: 'UTF-8'
+			encoding: 'UTF-8',
+			description: process.env.ROBOKASSA_PAYMENT_DESC,
+			taxSystem: process.env.ROBOKASSA_TAX_SYSTEM,
 		}
 	}
 
-	generatePaymentUrl({ outSum, description, invId }: GeneratePaymentUrlDto): string {
-		const payURL = new URL(this.config.paymentUrlTemplate);
+	generatePaymentUrl({ outSum, invId, items }: GeneratePaymentUrlDto): Payment {
+		const receipt = {
+			sno: this.config.taxSystem,
+			items: items
+		}
 
-		payURL.searchParams.append('MerchantLogin', this.config.merchantLogin);
-		payURL.searchParams.append('OutSum', outSum);
-		payURL.searchParams.append('Description', description);
-		payURL.searchParams.append('SignatureValue', this.calculateSignature(outSum, invId));
-		payURL.searchParams.append('InvId', invId);
-		payURL.searchParams.append('Encoding', this.config.encoding);
+		const receiptURI = encodeURIComponent(JSON.stringify(receipt));
+
+		const payment: Payment = {
+			url: this.config.paymentUrlTemplate,
+			params: {
+				MerchantLogin: this.config.merchantLogin,
+				OutSum: outSum,
+				Description: this.config.description,
+				SignatureValue: this.calculateSignature(outSum, invId, receiptURI),
+				InvId: invId,
+				Encoding: this.config.encoding,
+				Receipt: encodeURIComponent(receiptURI)
+			}
+		}
 
 		if (this.config.testMode) {
-			payURL.searchParams.append('IsTest', '1');
+			payment.params.IsTest = '1';
 		}
 
-		return payURL.href;
+		return payment;
 	}
 
-	calculateSignature(outSum: string, invId: string): string {
+	calculateSignature(outSum: string, invId: string, receiptURI: string): string {
 		const password = this.config.testMode ? this.config.testPassword1 : this.config.password1
-		const signature = `${this.config.merchantLogin}:${outSum}:${invId}:${password}`
+		const signature = `${this.config.merchantLogin}:${outSum}:${invId}:${receiptURI}:${password}`
 
 		return this.calculateHash(signature);
 	}
@@ -83,6 +104,7 @@ export class RoboKassaService {
 			if (JSON.stringify(order.price) === OutSum) {
 				order.set({ status: 'Оплачен' });
 				order = await order.save();
+				this.mailService.orderPaidNotificationToAdmin(InvId, OutSum);
 				return `OK${InvId}`;
 			}
 			return 'order sum doesnt match';

@@ -19,9 +19,10 @@ export class OrdersService {
 	) {}
 
 	async createOrder(props: CreateOrderDto) {
-		const { lastName, firstName, fatherName, email, phone, address, contact, basketProducts, shippingPrice } = props;
+		const { lastName, firstName, fatherName, email, phone, address, contact, basketProducts, shippingPrice, productsPrice } = props;
 		const order = await this.orderRepository.create({
 			status: 'Оформлен',
+			price: productsPrice
 		});
 		const basketProductsJS = JSON.parse(basketProducts);
 

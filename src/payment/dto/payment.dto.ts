@@ -4,11 +4,11 @@ export class GeneratePaymentUrlDto {
 	@ApiPropertyOptional({ example: '155.45', description: 'total price' })
 	readonly outSum: string;
 
-	@ApiPropertyOptional({ example: 'Purchase in the store "Store Name"', description: 'operation description' })
-	readonly description: string;
-
 	@ApiPropertyOptional({ example: '44', description: 'invoice number (order number)' })
 	readonly invId: string;
+
+	@ApiPropertyOptional({ example: '{"something": "123"}', description: 'receipt information' })
+	readonly items: JSON;
 }
 
 export class PaymentConfirmationDto {

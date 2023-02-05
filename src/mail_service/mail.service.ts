@@ -55,6 +55,26 @@ export class MailService {
 		return { productsText: productsText, totalPrice: totalPrice, totalCount: totalCount };
 	}
 
+	public async orderPaidNotificationToAdmin(orderId, sum) {
+		try {
+			await this.mailerService.sendMail({
+				from: process.env.SMTP_USER,
+				to: process.env.CLIENT_SERVICE_EMAIL,
+				subject: `Заказ №${orderId} оплачен`,
+				text: '',
+				html:
+					`
+					<div>
+						<h1>Поступила оплата по заказу №${orderId}<h1>
+						<p>Сумма оплаты :${sum} руб.</p>
+					</div>
+				`
+			})
+		} catch (e) {
+			console.log(e.message);
+		}
+	}
+
 	public async sendOrderNotificationToAdmin(orderId, lastName, firstName, fatherName, email, phone, address, contact, orderWithProducts) {
 		const { productsText, totalPrice, totalCount } = await this.emailData(orderWithProducts);
 		const shipping = address === 'pickup' ?
