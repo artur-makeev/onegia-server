@@ -22,7 +22,8 @@ export class OrdersService {
 		const { lastName, firstName, fatherName, email, phone, address, contact, basketProducts, shippingPrice, productsPrice } = props;
 		const order = await this.orderRepository.create({
 			status: 'Оформлен',
-			price: productsPrice
+			price: productsPrice,
+			shippingPrice: shippingPrice
 		});
 		const basketProductsJS = JSON.parse(basketProducts);
 
@@ -33,7 +34,7 @@ export class OrdersService {
 		}
 
 		await this.orderAddressRepository.create({
-			lastName, firstName, fatherName, email, phone, address, contact, orderId: order.id, shippingPrice
+			lastName, firstName, fatherName, email, phone, address, contact, orderId: order.id
 		})
 
 		const orderWithProducts = await this.orderProductRepository.findAll({

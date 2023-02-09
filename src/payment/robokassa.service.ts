@@ -101,7 +101,7 @@ export class RoboKassaService {
 
 		if (this.validateSignature(SignatureValue, OutSum, InvId)) {
 			let order = await this.orderRepository.findOne({ where: { id: InvId } });
-			if (JSON.stringify(order.price) === OutSum) {
+			if (JSON.stringify(order.price + order.shippingPrice) === OutSum) {
 				order.set({ status: 'Оплачен' });
 				order = await order.save();
 				this.mailService.orderPaidNotificationToAdmin(InvId, OutSum);

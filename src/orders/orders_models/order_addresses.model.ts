@@ -11,7 +11,6 @@ interface OrderAddressCreationAttrs {
 	address: string
 	contact: string
 	orderId: number,
-	shippingPrice: number
 }
 
 @Table({ tableName: 'order_addresses' })
@@ -43,10 +42,6 @@ export class OrderAddress extends Model<OrderAddress, OrderAddressCreationAttrs>
 	@ApiProperty({ example: '309 Regent St., London W1B 2HW', description: 'address' })
 	@Column({ type: DataType.STRING })
 	address: string
-
-	@ApiProperty({ example: '200', description: 'shipping price' })
-	@Column({ type: DataType.INTEGER, allowNull: false })
-	shippingPrice: number
 
 	@ApiProperty({ example: 'telegram', description: 'clients contact preference' })
 	@Column({ type: DataType.STRING })

@@ -6,7 +6,7 @@ import { OrderProduct } from './order_products.model';
 interface OrderCreationAttrs {
 	status: string
 	shippingType: string
-	shippingPrice: string
+	shippingPrice: number
 	price: number
 }
 
@@ -23,6 +23,10 @@ export class Order extends Model<Order, OrderCreationAttrs> {
 	@ApiProperty({ example: '300', description: 'order products total price' })
 	@Column({ type: DataType.STRING, allowNull: false })
 	price: number
+
+	@ApiProperty({ example: '200', description: 'shipping price' })
+	@Column({ type: DataType.INTEGER, allowNull: false })
+	shippingPrice: number
 
 	@HasMany(() => OrderProduct)
 	orderProducts: OrderProduct[];
