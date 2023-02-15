@@ -15,7 +15,6 @@ export class ProductsController {
 	@ApiResponse({ status: 200, type: [Product] })
 	@Get()
 	getAll(@Query() query: GetProductsDto) {
-		console.log(query)
 		return this.productsService.getAllProducts(query)
 	}
 }
