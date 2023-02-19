@@ -1,6 +1,6 @@
 import { Column, DataType, HasMany, Model, Table } from 'sequelize-typescript';
 import { AromaCategory } from 'src/aromas/aromas_models/aroma_categories.model';
-import { Product } from 'src/products/products.model';
+import { Product } from 'src/products/models/products.model';
 import { ApiProperty } from '@nestjs/swagger/dist/decorators';
 
 interface CategoryCreationAttrs {

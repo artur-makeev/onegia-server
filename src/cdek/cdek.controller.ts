@@ -4,7 +4,6 @@ import { CdekService } from './cdek.service';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger/dist';
 import { GetAddressesDto, GetCitiesDto, GetDeliveryDetailsDto } from './dto/cdek.dto';
 
-
 @ApiTags('Cdek')
 @Controller('api/cdek')
 export class CdekController {
@@ -15,13 +14,6 @@ export class CdekController {
 	@Get('auth')
 	auth() {
 		return this.cdekService.auth();
-	}
-
-	@ApiOperation({ summary: 'get token' })
-	@ApiResponse({ status: 200 })
-	@Get('token')
-	showToken() {
-		return this.cdekService.token;
 	}
 
 	@ApiOperation({ summary: 'get regions' })

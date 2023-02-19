@@ -1,7 +1,7 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger/dist';
 import { ApiTags } from '@nestjs/swagger/dist/decorators';
-import { Product } from './products.model';
+import { Product } from './models/products.model';
 import { ProductsService } from './products.service';
 import { GetProductsDto } from './dto/products.dto';
 
@@ -9,7 +9,9 @@ import { GetProductsDto } from './dto/products.dto';
 @Controller('api/product')
 export class ProductsController {
 
-	constructor(private productsService: ProductsService) {}
+	constructor(
+		private productsService: ProductsService,
+	) {}
 
 	@ApiOperation({ summary: 'get all products' })
 	@ApiResponse({ status: 200, type: [Product] })

@@ -1,11 +1,11 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { MailService } from 'src/mail_service/mail.service';
-import { Product } from 'src/products/products.model';
+import { Product } from 'src/products/models/products.model';
 import { CreateOrderDto } from './dto/order.dto';
-import { Order } from './orders_models/orders.model';
-import { OrderAddress } from './orders_models/order_addresses.model';
-import { OrderProduct } from './orders_models/order_products.model';
+import { Order } from './models/orders.model';
+import { OrderAddress } from './models/order_addresses.model';
+import { OrderProduct } from './models/order_products.model';
 
 
 @Injectable()

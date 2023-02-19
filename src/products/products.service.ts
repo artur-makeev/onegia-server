@@ -1,12 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { GetProductsDto } from './dto/products.dto';
-import { Product } from './products.model';
+import { Product } from './models/products.model';
 
 @Injectable()
 export class ProductsService {
 
-	constructor(@InjectModel(Product) private productRepository: typeof Product) {}
+	constructor(
+		@InjectModel(Product) private productRepository: typeof Product
+	) {}
 
 	async getAllProducts(query: GetProductsDto) {
 		try {
@@ -19,11 +21,20 @@ export class ProductsService {
 			let products;
 
 			if (categoryId) {
-				products = await this.productRepository.findAndCountAll({ where: { categoryId }, limit, offset });
+				products = await this.productRepository.findAndCountAll({
+					where: { categoryId },
+					attributes: { exclude: ['createdAt', 'updatedAt'] },
+					limit,
+					offset
+				});
 			}
 
 			if (!categoryId) {
-				products = await this.productRepository.findAndCountAll({ limit, offset });
+				products = await this.productRepository.findAndCountAll({
+					attributes: { exclude: ['createdAt', 'updatedAt'] },
+					limit,
+					offset
+				});
 			}
 
 			return products;

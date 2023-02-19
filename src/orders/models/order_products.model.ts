@@ -1,5 +1,5 @@
 import { Column, DataType, Model, Table, ForeignKey, BelongsTo } from 'sequelize-typescript';
-import { Product } from 'src/products/products.model';
+import { Product } from 'src/products/models/products.model';
 import { Order } from './orders.model';
 import { ApiProperty } from '@nestjs/swagger/dist/decorators';
 

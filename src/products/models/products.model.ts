@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger/dist/decorators';
 import { Column, DataType, Model, Table, ForeignKey, HasMany, BelongsTo } from 'sequelize-typescript';
 import { Category } from 'src/categories/categories.model';
-import { OrderProduct } from 'src/orders/orders_models/order_products.model';
+import { OrderProduct } from 'src/orders/models/order_products.model';
 
 interface ProductCreationAttrs {
 	name: string,

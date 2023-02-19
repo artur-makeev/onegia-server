@@ -2,15 +2,15 @@ import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { ConfigModule } from '@nestjs/config';
 import { ProductsModule } from './products/products.module';
-import { Product } from './products/products.model';
+import { Product } from './products/models/products.model';
 import { CategoriesModule } from './categories/categories.module';
 import { AromasModule } from './aromas/aromas.module';
 import { OrdersModule } from './orders/orders.module';
-import { Order } from './orders/orders_models/orders.model';
+import { Order } from './orders/models/orders.model';
 import { Category } from './categories/categories.model';
 import { Aroma } from './aromas/aromas_models/aromas.model';
-import { OrderProduct } from './orders/orders_models/order_products.model';
-import { OrderAddress } from './orders/orders_models/order_addresses.model';
+import { OrderProduct } from './orders/models/order_products.model';
+import { OrderAddress } from './orders/models/order_addresses.model';
 import { AromaCategory } from './aromas/aromas_models/aroma_categories.model';
 import { AromaDescription } from './aromas/aromas_models/aroma_descriptions.model';
 import { MailerModule } from '@nestjs-modules/mailer';
@@ -19,6 +19,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { CdekModule } from './cdek/cdek.module';
 import { PaymentModule } from './payment/payment.module';
+import { Package } from './products/models/package.model';
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { PaymentModule } from './payment/payment.module';
         Order,
         OrderProduct,
         OrderAddress,
+        Package
       ],
       autoLoadModels: true,
       timezone: '+03:00',

@@ -1,6 +1,7 @@
 import { HttpService } from '@nestjs/axios/dist';
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { ForbiddenException, Inject, Injectable } from '@nestjs/common';
 import { map, catchError, lastValueFrom } from 'rxjs';
+import { PackageService } from 'src/products/package.service';
 import { GetAddressesDto, GetCitiesDto, GetDeliveryDetailsDto } from './dto/cdek.dto';
 
 
@@ -10,6 +11,7 @@ export class CdekService {
 
 	constructor(
 		private readonly httpService: HttpService,
+		@Inject(PackageService) private packageService: PackageService,
 	) {
 		this.token = '';
 	}
@@ -40,18 +42,10 @@ export class CdekService {
 				);
 
 			this.token = await lastValueFrom(request);
-			//	setTimeout(() => {
-			//		this.token = '';
-			//	}, 3400)
 			return 0;
 		} catch (e) {
 			console.log(e.message);
-
 		};
-	}
-
-	getToken() {
-		return this.token;
 	}
 
 	async getRegions() {
@@ -180,7 +174,9 @@ export class CdekService {
 		return addresses;
 	}
 
-	async getDeliveryDetails({ to_address, weight }: GetDeliveryDetailsDto) {
+	async getDeliveryDetails({ to_address, packageProducts }: GetDeliveryDetailsDto) {
+		const packageParameters = await this.packageService.getPackageParameters(packageProducts);
+
 		if (!this.token) {
 			await this.auth();
 		}
@@ -198,7 +194,10 @@ export class CdekService {
 				address: to_address
 			},
 			packages: {
-				weight: weight
+				weight: packageParameters.packageWeight,
+				length: packageParameters.packageSideLength,
+				width: packageParameters.packageSideLength,
+				height: packageParameters.packageSideLength
 			}
 		}
 

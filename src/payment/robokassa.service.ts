@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { MailService } from 'src/mail_service/mail.service';
-import { Order } from 'src/orders/orders_models/orders.model';
+import { Order } from 'src/orders/models/orders.model';
 let crypto;
 try {
 	crypto = require('node:crypto');
