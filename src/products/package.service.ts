@@ -28,6 +28,7 @@ export class PackageService {
 				totalVolume += (productRecord.volume * product[1]);
 			}
 
+			totalVolume = totalVolume * 4;
 			const sideLength = Math.round(Math.cbrt(totalVolume));
 
 			return {

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger/dist/decorators';
-import { IsString } from 'class-validator';
+import { IsNumberString, IsString } from 'class-validator';
 
 export class CreateOrderDto {
 	@ApiProperty({ example: 'Brown', description: 'lastname' })
@@ -12,7 +12,7 @@ export class CreateOrderDto {
 
 	@ApiProperty({ example: 'Brown', description: 'lastname' })
 	@IsString()
-	readonly fatherName?: string;
+	readonly fatherName: string;
 
 	@ApiProperty({ example: 'name@gmail.com', description: 'email' })
 	@IsString()
@@ -34,12 +34,16 @@ export class CreateOrderDto {
 	@IsString()
 	readonly shippingType: string;
 
+	@ApiProperty({ example: '4', description: 'number of delivery days' })
+	@IsNumberString()
+	readonly shippingTime: number;
+
 	@ApiProperty({ example: '200', description: 'delivery price' })
-	@IsString()
+	@IsNumberString()
 	readonly shippingPrice: number;
 
 	@ApiProperty({ example: '200', description: 'products price' })
-	@IsString()
+	@IsNumberString()
 	readonly productsPrice: number;
 
 	@ApiProperty({ example: '{some fields}', description: 'products in the basket' })

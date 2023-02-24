@@ -11,4 +11,4 @@ import { CategoriesService } from './categories.service';
     SequelizeModule.forFeature([Category])
   ]
 })
-export class CategoriesModule { }
+export class CategoriesModule {}

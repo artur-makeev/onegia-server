@@ -6,9 +6,10 @@ interface AromaDescriptionCreationAttrs {
 	top: string
 	heart: string
 	base: string
+	aroma_id: number
 }
 
-@Table({ tableName: 'aroma_descriptions' })
+@Table({ tableName: 'aroma_descriptions', underscored: true })
 export class AromaDescription extends Model<AromaDescription, AromaDescriptionCreationAttrs> {
 	@ApiProperty({ example: '1', description: 'unique identifier' })
 	@Column({ type: DataType.INTEGER, unique: true, primaryKey: true, autoIncrement: true })
@@ -26,10 +27,10 @@ export class AromaDescription extends Model<AromaDescription, AromaDescriptionCr
 	@Column({ type: DataType.STRING })
 	base: string
 
-	@BelongsTo(() => Aroma)
-	aroma: Aroma;
-
 	@ForeignKey(() => Aroma)
 	@Column
-	aromaId: number;
+	aroma_id: number;
+
+	@BelongsTo(() => Aroma)
+	aroma: Aroma;
 }

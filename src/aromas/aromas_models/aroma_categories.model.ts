@@ -1,5 +1,4 @@
-import { Column, DataType, Model, Table, ForeignKey, HasMany, BelongsTo } from 'sequelize-typescript';
-import { Category } from 'src/categories/categories.model';
+import { Column, DataType, Model, Table, HasMany } from 'sequelize-typescript';
 import { Aroma } from './aromas.model';
 import { ApiProperty } from '@nestjs/swagger/dist/decorators';
 
@@ -7,7 +6,7 @@ interface AromaCategoriesCreationAttrs {
 	name: string
 }
 
-@Table({ tableName: 'aroma_categories' })
+@Table({ tableName: 'aroma_categories', underscored: true })
 export class AromaCategory extends Model<AromaCategory, AromaCategoriesCreationAttrs> {
 	@ApiProperty({ example: '1', description: 'unique identifier' })
 	@Column({ type: DataType.INTEGER, unique: true, primaryKey: true, autoIncrement: true })
@@ -17,13 +16,6 @@ export class AromaCategory extends Model<AromaCategory, AromaCategoriesCreationA
 	@Column({ type: DataType.STRING, allowNull: false })
 	name: string
 
-	@BelongsTo(() => Category)
-	category: Category;
-
-	@ForeignKey(() => Category)
-	@Column
-	categoryId: number;
-
 	@HasMany(() => Aroma)
-	aromaId: Aroma[];
+	aromas: Aroma[];
 }

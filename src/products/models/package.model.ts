@@ -3,13 +3,12 @@ import { Column, DataType, Model, Table, ForeignKey, BelongsTo } from 'sequelize
 import { Product } from './products.model';
 
 interface PackageCreationAttrs {
-	name: string,
-	price: number,
-	img: string,
+	weight: number,
+	volume: string,
 	description: string
 }
 
-@Table({ tableName: 'packages' })
+@Table({ tableName: 'packing_details', underscored: true })
 export class Package extends Model<Package, PackageCreationAttrs> {
 	@ApiProperty({ example: '1', description: 'unique identifier' })
 	@Column({ type: DataType.INTEGER, unique: true, primaryKey: true, autoIncrement: true })
@@ -24,7 +23,7 @@ export class Package extends Model<Package, PackageCreationAttrs> {
 	volume: number
 
 	@BelongsTo(() => Product)
-	product: Product;
+	fk_product_id: number
 
 	@ApiProperty({ example: '1', description: 'id of product' })
 	@ForeignKey(() => Product)

@@ -1,16 +1,16 @@
 import { ApiProperty } from '@nestjs/swagger/dist/decorators';
 
-export class GetAromaCategoriesDto {
-	@ApiProperty({ example: '1', description: 'id of the product`s category' })
-	readonly categoryId: string;
+export class GetAromasByProductDto {
+	@ApiProperty({ example: '2', description: 'id of product' })
+	readonly product_id: number;
 }
 
-export class GetAromasDto {
+export class GetAromasByCategoryDto {
 	@ApiProperty({ example: '1', description: 'id of the aroma category' })
-	readonly aromaCategoryId: string;
+	readonly aromaCategoryId: number;
 }
 
 export class GetAromaDescriptionDto {
 	@ApiProperty({ example: '1', description: 'id of the aroma' })
-	readonly aromaId: string;
+	readonly aromaId: number;
 }

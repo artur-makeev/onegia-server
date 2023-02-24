@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { MailService } from 'src/mail_service/mail.service';
 import { Order } from 'src/orders/models/orders.model';
+import { OrderPrice } from 'src/orders/models/order_prices.model';
 let crypto;
 try {
 	crypto = require('node:crypto');
@@ -28,15 +29,14 @@ interface Config {
 	taxSystem: string
 }
 
-
-
 @Injectable()
 export class RoboKassaService {
 	private config: Config
 
 	constructor(
 		@Inject(MailService) private mailService: MailService,
-		@InjectModel(Order) private orderRepository: typeof Order
+		@InjectModel(Order) private orderRepository: typeof Order,
+		@InjectModel(OrderPrice) private orderPriceRepository: typeof OrderPrice
 	) {
 		this.config = {
 			merchantLogin: process.env.ROBOKASSA_LOGIN,
@@ -100,8 +100,9 @@ export class RoboKassaService {
 	async confirmPayment({ OutSum, InvId, SignatureValue }: PaymentConfirmationDto) {
 
 		if (this.validateSignature(SignatureValue, OutSum, InvId)) {
-			let order = await this.orderRepository.findOne({ where: { id: InvId } });
-			if ((order.price + order.shippingPrice) === +OutSum) {
+			const orderCost = await this.orderPriceRepository.findOne({ where: { order_id: InvId } });
+			if ((orderCost.price + orderCost.shipping_price) === +OutSum) {
+				let order = await this.orderRepository.findOne({ where: { id: InvId } })
 				order.set({ status: 'Оплачен' });
 				order = await order.save();
 				this.mailService.orderPaidNotificationToAdmin(InvId, OutSum);

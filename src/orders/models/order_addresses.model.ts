@@ -3,17 +3,18 @@ import { Order } from './orders.model';
 import { ApiProperty } from '@nestjs/swagger/dist/decorators';
 
 interface OrderAddressCreationAttrs {
-	lastName: string
-	firstName: string
-	fatherName: string
+	last_name: string
+	first_name: string
+	father_name: string
 	email: string
 	phone: string
 	address: string
+	shipping_type: string
 	contact: string
-	orderId: number,
+	order_id: number
 }
 
-@Table({ tableName: 'order_addresses' })
+@Table({ tableName: 'order_addresses', underscored: true })
 export class OrderAddress extends Model<OrderAddress, OrderAddressCreationAttrs> {
 	@ApiProperty({ example: '1', description: 'unique identifier' })
 	@Column({ type: DataType.INTEGER, unique: true, primaryKey: true, autoIncrement: true })
@@ -21,15 +22,15 @@ export class OrderAddress extends Model<OrderAddress, OrderAddressCreationAttrs>
 
 	@ApiProperty({ example: 'Brown', description: 'lastname' })
 	@Column({ type: DataType.STRING })
-	lastName: string
+	last_name: string
 
 	@ApiProperty({ example: 'John', description: 'firstname' })
 	@Column({ type: DataType.STRING })
-	firstName: string
+	first_name: string
 
 	@ApiProperty({ example: 'Christopher', description: 'father name' })
 	@Column({ type: DataType.STRING })
-	fatherName: string
+	father_name: string
 
 	@ApiProperty({ example: 'name@gmail.com', description: 'email' })
 	@Column({ type: DataType.STRING })
@@ -43,16 +44,20 @@ export class OrderAddress extends Model<OrderAddress, OrderAddressCreationAttrs>
 	@Column({ type: DataType.STRING })
 	address: string
 
+	@ApiProperty({ example: 'cdek', description: 'shipping type' })
+	@Column({ type: DataType.STRING })
+	shipping_type: string
+
 	@ApiProperty({ example: 'telegram', description: 'clients contact preference' })
 	@Column({ type: DataType.STRING })
 	contact: string
 
-	@BelongsTo(() => Order)
-	order: Order;
-
 	@ApiProperty({ example: '23', description: 'order`s id' })
 	@ForeignKey(() => Order)
 	@Column
-	orderId: number;
+	order_id: number;
+
+	@BelongsTo(() => Order)
+	order: Order;
 
 }

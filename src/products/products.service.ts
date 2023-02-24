@@ -12,7 +12,7 @@ export class ProductsService {
 
 	async getAllProducts(query: GetProductsDto) {
 		try {
-			const categoryId: number = parseInt(query.categoryId);
+			const category_id: number = parseInt(query.categoryId);
 			let limit: number = parseInt(query.limit);
 			let page: number = parseInt(query.page)
 			page = page || 1;
@@ -20,16 +20,16 @@ export class ProductsService {
 			const offset = page * limit - limit;
 			let products;
 
-			if (categoryId) {
+			if (category_id) {
 				products = await this.productRepository.findAndCountAll({
-					where: { categoryId },
+					where: { category_id },
 					attributes: { exclude: ['createdAt', 'updatedAt'] },
 					limit,
 					offset
 				});
 			}
 
-			if (!categoryId) {
+			if (!category_id) {
 				products = await this.productRepository.findAndCountAll({
 					attributes: { exclude: ['createdAt', 'updatedAt'] },
 					limit,

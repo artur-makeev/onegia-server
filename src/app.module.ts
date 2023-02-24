@@ -20,6 +20,8 @@ import { join } from 'path';
 import { CdekModule } from './cdek/cdek.module';
 import { PaymentModule } from './payment/payment.module';
 import { Package } from './products/models/package.model';
+import { ProductAroma } from './products/models/product_aroma.model';
+import { OrderPrice } from './orders/models/order_prices.model';
 
 @Module({
   imports: [
@@ -39,11 +41,13 @@ import { Package } from './products/models/package.model';
         Product,
         Category,
         Aroma,
+        ProductAroma,
         AromaCategory,
         AromaDescription,
         Order,
         OrderProduct,
         OrderAddress,
+        OrderPrice,
         Package
       ],
       autoLoadModels: true,

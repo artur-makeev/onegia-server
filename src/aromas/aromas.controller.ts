@@ -2,8 +2,7 @@ import { Controller, Get, Param } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger/dist/decorators';
 import { AromasService } from './aromas.service';
 import { Aroma } from './aromas_models/aromas.model';
-import { AromaCategory } from './aromas_models/aroma_categories.model';
-import { GetAromaCategoriesDto, GetAromaDescriptionDto, GetAromasDto } from './dto/aroma.dto';
+import { GetAromaDescriptionDto, GetAromasByCategoryDto, GetAromasByProductDto } from './dto/aroma.dto';
 import { ReturnAromaDescription } from './examples/examples';
 
 
@@ -12,17 +11,18 @@ import { ReturnAromaDescription } from './examples/examples';
 export class AromasController {
 	constructor(private aromasService: AromasService) {}
 
-	@ApiOperation({ summary: 'get aroma categories by product category' })
-	@ApiResponse({ status: 200, type: [AromaCategory] })
-	@Get(':categoryId')
-	getCategories(@Param() reqParam: GetAromaCategoriesDto) {
-		return this.aromasService.getAromaCategories(reqParam.categoryId);
+	@ApiOperation({ summary: 'get aromas by aromas by product id' })
+	@ApiResponse({ status: 200, type: [Aroma] })
+	@Get('/:product_id')
+	getAromasByProduct(@Param() reqParam: GetAromasByProductDto) {
+		return this.aromasService.getAromasByProduct(reqParam.product_id);
 	}
+
 
 	@ApiOperation({ summary: 'get aromas by aroma category' })
 	@ApiResponse({ status: 200, type: [Aroma] })
 	@Get('category/:aromaCategoryId')
-	getAromas(@Param() reqParam: GetAromasDto) {
+	getAromas(@Param() reqParam: GetAromasByCategoryDto) {
 		return this.aromasService.getAromas(reqParam.aromaCategoryId);
 	}
 
