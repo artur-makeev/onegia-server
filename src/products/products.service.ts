@@ -24,6 +24,9 @@ export class ProductsService {
 				products = await this.productRepository.findAndCountAll({
 					where: { category_id },
 					attributes: { exclude: ['createdAt', 'updatedAt'] },
+					order: [
+						['id', 'ASC']
+					],
 					limit,
 					offset
 				});
@@ -32,6 +35,9 @@ export class ProductsService {
 			if (!category_id) {
 				products = await this.productRepository.findAndCountAll({
 					attributes: { exclude: ['createdAt', 'updatedAt'] },
+					order: [
+						['id', 'ASC']
+					],
 					limit,
 					offset
 				});
