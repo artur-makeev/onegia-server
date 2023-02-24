@@ -25,7 +25,7 @@ export class ProductsService {
 					where: { category_id },
 					attributes: { exclude: ['createdAt', 'updatedAt'] },
 					order: [
-						['id', 'ASC']
+						['id', 'DESC']
 					],
 					limit,
 					offset
@@ -36,7 +36,7 @@ export class ProductsService {
 				products = await this.productRepository.findAndCountAll({
 					attributes: { exclude: ['createdAt', 'updatedAt'] },
 					order: [
-						['id', 'ASC']
+						['id', 'DESC']
 					],
 					limit,
 					offset
