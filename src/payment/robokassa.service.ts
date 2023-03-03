@@ -105,7 +105,7 @@ export class RoboKassaService {
 				let order = await this.orderRepository.findOne({ where: { id: InvId } })
 				order.set({ status: 'Оплачен' });
 				order = await order.save();
-				this.mailService.orderPaidNotificationToAdmin(InvId, OutSum);
+				this.mailService.orderPaidNotificationToAdmin(InvId, parseInt(OutSum));
 				return `OK${InvId}`;
 			}
 			return 'order sum doesnt match';

@@ -97,6 +97,7 @@ export class MailService {
 
 		switch (shippingType) {
 			case 'pickup':
+				console.log('case pickup')
 				deliveryDetails = '<p>Самовывоз в тц "Пирамида"</p>';
 				break;
 			case 'cdek':
@@ -107,6 +108,7 @@ export class MailService {
 				break;
 			case 'yandex':
 				deliveryDetails = '<p>Яндекс Доставка</p>'
+				break;
 			default:
 				console.log('mailservice shippingType error')
 				break;
@@ -177,6 +179,7 @@ export class MailService {
 			case 'yandex':
 				deliveryDetails = '<p>Заказ будет направлен Яндекс доставкой</p>';
 				deliveryPrice = '<p>Доставка оплачивается отдельно</p>';
+				break;
 			default:
 				console.log('mailservice shippingType error')
 				break;
