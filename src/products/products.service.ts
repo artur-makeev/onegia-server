@@ -24,8 +24,9 @@ export class ProductsService {
 				products = await this.productRepository.findAndCountAll({
 					where: { category_id },
 					attributes: { exclude: ['createdAt', 'updatedAt'] },
+					raw: true,
 					order: [
-						['id', 'DESC']
+						['id', 'ASC']
 					],
 					limit,
 					offset
@@ -35,18 +36,23 @@ export class ProductsService {
 			if (!category_id) {
 				products = await this.productRepository.findAndCountAll({
 					attributes: { exclude: ['createdAt', 'updatedAt'] },
+					raw: true,
 					order: [
-						['id', 'DESC']
+						['id', 'ASC']
 					],
 					limit,
 					offset
 				});
 			}
-
-			return products;
+			const orderedProducts = { count: products.count, rows: this.sortProducts(products.rows) };
+			return orderedProducts;
 		} catch (e) {
 			console.log(e.message);
 
 		};
+	}
+
+	sortProducts(products) {
+		return [products[6], products[0], products[4], products[3], products[1], products[2], products[3]];
 	}
 }
