@@ -53,6 +53,6 @@ export class ProductsService {
 	}
 
 	sortProducts(products) {
-		return [products[6], products[0], products[4], products[3], products[1], products[2], products[3]];
+		return [products[6], products[0], products[4], products[3], products[1], products[2], products[5]];
 	}
 }
