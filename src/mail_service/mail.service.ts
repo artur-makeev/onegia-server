@@ -18,7 +18,7 @@ export class MailService {
 				productAroma: item.aroma_id,
 				productPrice: item['product.price'],
 				count: 1,
-			}
+			};
 		});
 
 		const productsCounted = products.reduce((acc, cur) => {
@@ -30,7 +30,7 @@ export class MailService {
 			})) {
 				return acc;
 			} else {
-				acc.push(cur)
+				acc.push(cur);
 				return acc;
 			}
 		}, []);
@@ -40,13 +40,13 @@ export class MailService {
 			const aromaRaw = await this.aromaRepository.findOne({
 				where: { id: item.productAroma },
 				raw: true,
-			})
+			});
 			const aromaName = aromaRaw.name;
-			productsText += `<li>${item.productName}, аромат: ${aromaName}, цена: ${item.productPrice} ₽, количество: ${item.count} шт.</li>`
+			productsText += `<li>${item.productName}, аромат: ${aromaName}, цена: ${item.productPrice} ₽, количество: ${item.count} шт.</li>`;
 		}
 
 		const totalProductsPrice = productsCounted.reduce((sum, cur) => {
-			return sum += (+cur.count * +cur.productPrice)
+			return sum += (+cur.count * +cur.productPrice);
 		}, 0);
 
 		const totalCount = productsCounted.reduce((sum, cur) => {
@@ -70,7 +70,7 @@ export class MailService {
 						<p>Сумма оплаты :${sum} руб.</p>
 					</div>
 					`
-			})
+			});
 		} catch (e) {
 			console.log(e.message);
 		}
@@ -97,20 +97,20 @@ export class MailService {
 
 		switch (shippingType) {
 			case 'pickup':
-				console.log('case pickup')
+				console.log('case pickup');
 				deliveryDetails = '<p>Самовывоз в тц "Пирамида"</p>';
 				break;
 			case 'cdek':
 				deliveryDetails = `<p>Выбран пункт СДЭК: ${address}</p>\
-				<p>Доставка займет ${shippingTime} ${daySpelling(shippingTime)}</p>`
+				<p>Доставка займет ${shippingTime} ${daySpelling(shippingTime)}</p>`;
 				deliveryPrice = `<p>Стоимость доставки: ${shippingPrice} ₽</p>`;
-				totalPrice = `<p>Общая стоимость: ${parseInt(totalProductsPrice) + parseInt(shippingPrice)} ₽</p>`
+				totalPrice = `<p>Общая стоимость: ${parseInt(totalProductsPrice) + parseInt(shippingPrice)} ₽</p>`;
 				break;
 			case 'yandex':
-				deliveryDetails = '<p>Яндекс Доставка</p>'
+				deliveryDetails = '<p>Яндекс Доставка</p>';
 				break;
 			default:
-				console.log('mailservice shippingType error')
+				console.log('mailservice shippingType error');
 				break;
 		}
 
@@ -138,9 +138,9 @@ export class MailService {
 						${totalPrice}
 					</body>
 					`
-			})
+			});
 		} catch (e) {
-			console.log('Email to admin failed:')
+			console.log('Email to admin failed:');
 			console.log(e.message);
 		}
 
@@ -181,7 +181,7 @@ export class MailService {
 				deliveryPrice = '<p>Доставка оплачивается отдельно</p>';
 				break;
 			default:
-				console.log('mailservice shippingType error')
+				console.log('mailservice shippingType error');
 				break;
 		}
 
@@ -213,9 +213,9 @@ export class MailService {
 						<p>Команда <a href=${process.env.CLIENT_URL}>${process.env.COMPANY_NAME}</a></p>
 					</body>
 				`
-			})
+			});
 		} catch (e) {
-			console.log('Email to client failed:')
+			console.log('Email to client failed:');
 			console.log(e.message);
 		}
 	}

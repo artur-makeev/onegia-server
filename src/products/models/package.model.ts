@@ -12,18 +12,18 @@ interface PackageCreationAttrs {
 export class Package extends Model<Package, PackageCreationAttrs> {
 	@ApiProperty({ example: '1', description: 'unique identifier' })
 	@Column({ type: DataType.INTEGER, unique: true, primaryKey: true, autoIncrement: true })
-	id: number
+	id: number;
 
 	@ApiProperty({ example: '400', description: 'product weight in grams' })
 	@Column({ type: DataType.INTEGER, allowNull: false })
-	weight: number
+	weight: number;
 
 	@ApiProperty({ example: '27', description: 'product volume in cm3' })
 	@Column({ type: DataType.INTEGER, allowNull: false })
-	volume: number
+	volume: number;
 
 	@BelongsTo(() => Product)
-	fk_product_id: number
+	fk_product_id: number;
 
 	@ApiProperty({ example: '1', description: 'id of product' })
 	@ForeignKey(() => Product)

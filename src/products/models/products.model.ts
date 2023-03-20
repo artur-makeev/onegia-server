@@ -18,23 +18,23 @@ interface ProductCreationAttrs {
 export class Product extends Model<Product, ProductCreationAttrs> {
 	@ApiProperty({ example: '1', description: 'unique identifier' })
 	@Column({ type: DataType.INTEGER, unique: true, primaryKey: true, autoIncrement: true })
-	id: number
+	id: number;
 
 	@ApiProperty({ example: 'Candle', description: 'product name' })
 	@Column({ type: DataType.STRING, unique: true, allowNull: false })
-	name: string
+	name: string;
 
 	@ApiProperty({ example: '400', description: 'product price' })
 	@Column({ type: DataType.INTEGER, allowNull: false })
-	price: number
+	price: number;
 
 	@ApiProperty({ example: 'candle.png', description: 'product image name' })
 	@Column({ type: DataType.STRING, allowNull: false })
-	img: string
+	img: string;
 
 	@ApiProperty({ example: 'with added flavors', description: 'product description' })
 	@Column({ type: DataType.STRING })
-	description: string
+	description: string;
 
 	@BelongsTo(() => Category)
 	category: Category;
@@ -45,10 +45,10 @@ export class Product extends Model<Product, ProductCreationAttrs> {
 	category_id: number;
 
 	@HasOne(() => Package)
-	product: Product
+	product: Product;
 
 	@HasMany(() => OrderProduct)
-	order_product: number
+	order_product: number;
 
 	@BelongsToMany(() => Aroma, () => ProductAroma)
 	aromas: Aroma[];

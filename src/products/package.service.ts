@@ -17,7 +17,7 @@ export class PackageService {
 			const productsArr = [];
 
 			for (const [key, value] of Object.entries(products)) {
-				productsArr.push([key, value])
+				productsArr.push([key, value]);
 			}
 
 			for (const product of productsArr) {
@@ -37,7 +37,6 @@ export class PackageService {
 			};
 		} catch (e) {
 			console.log(e.message);
-
 		};
 	}
 }

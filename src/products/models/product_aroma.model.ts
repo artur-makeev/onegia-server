@@ -12,7 +12,7 @@ interface ProductAromaCreationAttrs {
 export class ProductAroma extends Model<ProductAroma, ProductAromaCreationAttrs> {
 	@ApiProperty({ example: '1', description: 'unique identifier' })
 	@Column({ type: DataType.INTEGER, unique: true, primaryKey: true, autoIncrement: true })
-	id: number
+	id: number;
 
 	@ApiProperty({ example: '1', description: 'product id' })
 	@ForeignKey(() => Product)

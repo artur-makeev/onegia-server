@@ -15,11 +15,11 @@ interface AromaCreationAttrs {
 export class Aroma extends Model<Aroma, AromaCreationAttrs> {
 	@ApiProperty({ example: '1', description: 'unique identifier' })
 	@Column({ type: DataType.INTEGER, unique: true, primaryKey: true, autoIncrement: true })
-	id: number
+	id: number;
 
 	@ApiProperty({ example: 'Orange', description: 'aroma name' })
 	@Column({ type: DataType.STRING, unique: true, allowNull: false })
-	name: string
+	name: string;
 
 	@ApiProperty({ example: '3', description: 'aroma category id' })
 	@ForeignKey(() => AromaCategory)
