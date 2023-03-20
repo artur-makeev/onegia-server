@@ -6,8 +6,7 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const PORT = process.env.PORT || 5000;
   const app = await NestFactory.create(AppModule);
-  // добавить ip робокассы в whitelist 185.59.216.0/24 (185.59.216.1 - 185.59.216.254)
-  const robokassaIps = /185\.59\.216\.([1-9][0-9]?|1[0-9][0-9]|2[0-4][0-9]|25[0-4]){1}/
+  const robokassaIps = /185\.59\.216\.([1-9][0-9]?|1[0-9][0-9]|2[0-4][0-9]|25[0-4]){1}/;
   app.enableCors({
     credentials: true,
     origin: (origin, callback) => {
@@ -17,7 +16,7 @@ async function bootstrap() {
         if (!origin || origin === process.env.CLIENT_URL || origin === process.env.CLIENT_URL2 || robokassaIps.test(origin)) {
           callback(null, true);
         } else {
-          callback(new Error('Not allowed by CORS'))
+          callback(new Error('Not allowed by CORS'));
         }
       }
     }

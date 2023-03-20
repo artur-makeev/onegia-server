@@ -25,6 +25,7 @@ import { OrderPrice } from './orders/models/order_prices.model';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { AppController } from './app.controller';
+import { ManagementModule } from './management/management.module';
 
 @Module({
   imports: [
@@ -79,6 +80,7 @@ import { AppController } from './app.controller';
     PaymentModule,
     AuthModule,
     UsersModule,
+    ManagementModule,
   ],
   controllers: [AppController],
   providers: [],

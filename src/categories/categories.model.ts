@@ -10,11 +10,11 @@ interface CategoryCreationAttrs {
 export class Category extends Model<Category, CategoryCreationAttrs> {
 	@ApiProperty({ example: '1', description: 'unique identifier' })
 	@Column({ type: DataType.INTEGER, unique: true, primaryKey: true, autoIncrement: true })
-	id: number
+	id: number;
 
 	@ApiProperty({ example: 'Candles', description: 'category name' })
 	@Column({ type: DataType.STRING, unique: true, allowNull: false })
-	name: string
+	name: string;
 
 	@HasMany(() => Product)
 	products: Product[];

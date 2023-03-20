@@ -13,19 +13,19 @@ interface AromaDescriptionCreationAttrs {
 export class AromaDescription extends Model<AromaDescription, AromaDescriptionCreationAttrs> {
 	@ApiProperty({ example: '1', description: 'unique identifier' })
 	@Column({ type: DataType.INTEGER, unique: true, primaryKey: true, autoIncrement: true })
-	id: number
+	id: number;
 
 	@ApiProperty({ example: 'honey', description: 'top flavor' })
 	@Column({ type: DataType.STRING })
-	top: string
+	top: string;
 
 	@ApiProperty({ example: 'strawberries', description: 'heart flavor' })
 	@Column({ type: DataType.STRING })
-	heart: string
+	heart: string;
 
 	@ApiProperty({ example: 'cake', description: 'base flavor' })
 	@Column({ type: DataType.STRING })
-	base: string
+	base: string;
 
 	@ForeignKey(() => Aroma)
 	@Column

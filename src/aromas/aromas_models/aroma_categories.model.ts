@@ -10,11 +10,11 @@ interface AromaCategoriesCreationAttrs {
 export class AromaCategory extends Model<AromaCategory, AromaCategoriesCreationAttrs> {
 	@ApiProperty({ example: '1', description: 'unique identifier' })
 	@Column({ type: DataType.INTEGER, unique: true, primaryKey: true, autoIncrement: true })
-	id: number
+	id: number;
 
 	@ApiProperty({ example: 'Fresh', description: 'aroma category name' })
 	@Column({ type: DataType.STRING, allowNull: false })
-	name: string
+	name: string;
 
 	@HasMany(() => Aroma)
 	aromas: Aroma[];

@@ -14,7 +14,7 @@ export class ProductsService {
 		try {
 			const category_id: number = parseInt(query.categoryId);
 			let limit: number = parseInt(query.limit);
-			let page: number = parseInt(query.page)
+			let page: number = parseInt(query.page);
 			page = page || 1;
 			limit = +limit || 9;
 			const offset = page * limit - limit;

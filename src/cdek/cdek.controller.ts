@@ -41,7 +41,7 @@ export class CdekController {
 	@ApiResponse({ status: 201 })
 	@Post('calculate')
 	calculate(@Body() body: GetDeliveryDetailsDto) {
-		return this.cdekService.getDeliveryDetails(body)
+		return this.cdekService.getDeliveryDetails(body);
 	}
 
 }

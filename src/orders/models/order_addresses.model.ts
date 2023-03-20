@@ -18,39 +18,39 @@ interface OrderAddressCreationAttrs {
 export class OrderAddress extends Model<OrderAddress, OrderAddressCreationAttrs> {
 	@ApiProperty({ example: '1', description: 'unique identifier' })
 	@Column({ type: DataType.INTEGER, unique: true, primaryKey: true, autoIncrement: true })
-	id: number
+	id: number;
 
 	@ApiProperty({ example: 'Brown', description: 'lastname' })
 	@Column({ type: DataType.STRING })
-	last_name: string
+	last_name: string;
 
 	@ApiProperty({ example: 'John', description: 'firstname' })
 	@Column({ type: DataType.STRING })
-	first_name: string
+	first_name: string;
 
 	@ApiProperty({ example: 'Christopher', description: 'father name' })
 	@Column({ type: DataType.STRING })
-	father_name: string
+	father_name: string;
 
 	@ApiProperty({ example: 'name@gmail.com', description: 'email' })
 	@Column({ type: DataType.STRING })
-	email: string
+	email: string;
 
 	@ApiProperty({ example: '+44 7700 900504' })
 	@Column({ type: DataType.STRING })
-	phone: string
+	phone: string;
 
 	@ApiProperty({ example: '309 Regent St., London W1B 2HW', description: 'address' })
 	@Column({ type: DataType.STRING })
-	address: string
+	address: string;
 
 	@ApiProperty({ example: 'cdek', description: 'shipping type' })
 	@Column({ type: DataType.STRING })
-	shipping_type: string
+	shipping_type: string;
 
 	@ApiProperty({ example: 'telegram', description: 'clients contact preference' })
 	@Column({ type: DataType.STRING })
-	contact: string
+	contact: string;
 
 	@ApiProperty({ example: '23', description: 'order`s id' })
 	@ForeignKey(() => Order)

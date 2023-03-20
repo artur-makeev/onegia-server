@@ -32,19 +32,20 @@ export class OrdersService {
 			contact,
 			basketProducts,
 			shippingPrice,
-			productsPrice
+			productsPrice,
 		} = props;
 
 		const order = await this.orderRepository.create({
-			status: 'Оформлен',
+			status: 'created',
 		});
 		const basketProductsJS = JSON.parse(basketProducts);
 
 		await this.orderPriceRepository.create({
 			price: productsPrice,
 			shipping_price: shippingPrice,
+			client_paid: 0,
 			order_id: order.id
-		})
+		});
 
 		for (const item of basketProductsJS) {
 			for (let i = 0; i < item.count; i++) {
@@ -108,6 +109,5 @@ export class OrdersService {
 	} catch(e) {
 		console.log(e.message);
 	}
-
 }
 
