@@ -10,7 +10,8 @@ async function bootstrap() {
   app.enableCors({
     credentials: true,
     origin: (origin, callback) => {
-      if (origin === process.env.CP_URL ||
+      if (!origin ||
+        origin === process.env.CP_URL ||
         origin === process.env.CP_URL2 ||
         origin === process.env.CLIENT_URL ||
         origin === process.env.CLIENT_URL2 ||

@@ -53,9 +53,18 @@ export class ManagementService {
 			orders = await this.orderRepository.findAll({
 				attributes: ['id', 'status', 'created_at'],
 				where: {
-					status: {
-						[Op.ne]: 'complete'
-					}
+					[Op.and]: [
+						{
+							status: {
+								[Op.ne]: 'complete'
+							}
+						},
+						{
+							status: {
+								[Op.ne]: 'cancelled'
+							}
+						}
+					]
 				},
 				order: [
 					['id', 'DESC'],
