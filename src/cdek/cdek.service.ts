@@ -26,7 +26,7 @@ export class CdekService {
 
 			const config = {
 				headers: { 'content-type': 'application/x-www-form-urlencoded' }
-			}
+			};
 
 			const request = this.httpService
 				.post(
@@ -68,7 +68,7 @@ export class CdekService {
 			regions = await lastValueFrom(request);
 			authFailed = false;
 		} catch (e) {
-			console.log(e)
+			console.log(e);
 		}
 
 		if (authFailed) {
@@ -83,8 +83,8 @@ export class CdekService {
 			return {
 				region: region.region,
 				region_code: region.region_code
-			}
-		})
+			};
+		});
 		return regions;
 	}
 
@@ -108,7 +108,7 @@ export class CdekService {
 			cities = await lastValueFrom(request);
 			authFailed = false;
 		} catch (e) {
-			console.log(e)
+			console.log(e);
 		}
 
 		if (authFailed) {
@@ -125,7 +125,7 @@ export class CdekService {
 				city: city.city,
 				longitude: city.longitude,
 				latitude: city.latitude,
-			}
+			};
 		});
 
 		return cities;
@@ -151,7 +151,7 @@ export class CdekService {
 			addresses = await lastValueFrom(request);
 			authFailed = false;
 		} catch (e) {
-			console.log(e)
+			console.log(e);
 		}
 
 		if (authFailed) {
@@ -168,8 +168,8 @@ export class CdekService {
 				address: address.location.address_full,
 				longitude: address.location.longitude,
 				latitude: address.location.latitude
-			}
-		})
+			};
+		});
 
 		return addresses;
 	}
@@ -199,7 +199,7 @@ export class CdekService {
 				width: packageParameters.packageSideLength,
 				height: packageParameters.packageSideLength
 			}
-		}
+		};
 
 		let deliveryDetails;
 		let authFailed = true;
@@ -211,7 +211,7 @@ export class CdekService {
 			deliveryDetails = await lastValueFrom(request);
 			authFailed = false;
 		} catch (e) {
-			console.log(e)
+			console.log(e);
 		}
 
 		if (authFailed) {
@@ -226,7 +226,7 @@ export class CdekService {
 			total_sum: deliveryDetails.total_sum,
 			period_min: deliveryDetails.period_min,
 			period_max: deliveryDetails.period_max
-		}
+		};
 		return deliveryDetails;
 	}
 }

@@ -17,6 +17,7 @@ export class OrdersController {
 	@UsePipes(new ValidationPipe())
 	@UseInterceptors(FileInterceptor('file'))
 	create(@Body() body: CreateOrderDto) {
-		return this.ordersService.createOrder(body)
+		return this.ordersService.createOrder(body);
 	}
+
 }

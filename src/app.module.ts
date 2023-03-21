@@ -22,6 +22,10 @@ import { PaymentModule } from './payment/payment.module';
 import { Package } from './products/models/package.model';
 import { ProductAroma } from './products/models/product_aroma.model';
 import { OrderPrice } from './orders/models/order_prices.model';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
+import { AppController } from './app.controller';
+import { ManagementModule } from './management/management.module';
 
 @Module({
   imports: [
@@ -74,8 +78,11 @@ import { OrderPrice } from './orders/models/order_prices.model';
     MailModule,
     CdekModule,
     PaymentModule,
+    AuthModule,
+    UsersModule,
+    ManagementModule,
   ],
-  controllers: [],
+  controllers: [AppController],
   providers: [],
 })
 export class AppModule {}

@@ -12,11 +12,11 @@ interface OrderCreationAttrs {
 export class Order extends Model<Order, OrderCreationAttrs> {
 	@ApiProperty({ example: '1', description: 'unique identifier' })
 	@Column({ type: DataType.INTEGER, unique: true, primaryKey: true, autoIncrement: true })
-	id: number
+	id: number;
 
 	@ApiProperty({ example: 'Complete', description: 'order status' })
 	@Column({ type: DataType.STRING, allowNull: false })
-	status: string
+	status: string;
 
 	@HasMany(() => OrderProduct)
 	order_products: OrderProduct[];
@@ -25,5 +25,5 @@ export class Order extends Model<Order, OrderCreationAttrs> {
 	order_addreess: OrderAddress;
 
 	@HasOne(() => OrderPrice)
-	order_price: OrderPrice
+	order_price: OrderPrice;
 }

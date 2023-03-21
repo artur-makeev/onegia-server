@@ -31,7 +31,7 @@ interface Config {
 
 @Injectable()
 export class RoboKassaService {
-	private config: Config
+	private config: Config;
 
 	constructor(
 		@Inject(MailService) private mailService: MailService,
@@ -51,14 +51,14 @@ export class RoboKassaService {
 			encoding: 'UTF-8',
 			description: process.env.ROBOKASSA_PAYMENT_DESC,
 			taxSystem: process.env.ROBOKASSA_TAX_SYSTEM,
-		}
+		};
 	}
 
 	generatePaymentUrl({ outSum, invId, items }: GeneratePaymentUrlDto): Payment {
 		const receipt = {
 			sno: this.config.taxSystem,
 			items: items
-		}
+		};
 
 		const receiptURI = encodeURIComponent(JSON.stringify(receipt));
 
@@ -73,7 +73,7 @@ export class RoboKassaService {
 				Encoding: this.config.encoding,
 				Receipt: encodeURIComponent(receiptURI)
 			}
-		}
+		};
 
 		if (this.config.testMode) {
 			payment.params.IsTest = '1';
@@ -83,8 +83,8 @@ export class RoboKassaService {
 	}
 
 	calculateSignature(outSum: string, invId: string, receiptURI: string): string {
-		const password = this.config.testMode ? this.config.testPassword1 : this.config.password1
-		const signature = `${this.config.merchantLogin}:${outSum}:${invId}:${receiptURI}:${password}`
+		const password = this.config.testMode ? this.config.testPassword1 : this.config.password1;
+		const signature = `${this.config.merchantLogin}:${outSum}:${invId}:${receiptURI}:${password}`;
 
 		return this.calculateHash(signature);
 	}
@@ -102,7 +102,9 @@ export class RoboKassaService {
 		if (this.validateSignature(SignatureValue, OutSum, InvId)) {
 			const orderCost = await this.orderPriceRepository.findOne({ where: { order_id: InvId } });
 			if ((orderCost.price + orderCost.shipping_price) === +OutSum) {
-				let order = await this.orderRepository.findOne({ where: { id: InvId } })
+				let order = await this.orderRepository.findOne({ where: { id: InvId } });
+				orderCost.set({ client_paid: +OutSum });
+				await orderCost.save();
 				order.set({ status: 'Оплачен' });
 				order = await order.save();
 				this.mailService.orderPaidNotificationToAdmin(InvId, parseInt(OutSum));

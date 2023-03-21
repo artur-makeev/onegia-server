@@ -14,12 +14,12 @@ interface OrderProductCreationAttrs {
 export class OrderProduct extends Model<OrderProduct, OrderProductCreationAttrs> {
 	@ApiProperty({ example: '1', description: 'unique identifier' })
 	@Column({ type: DataType.INTEGER, unique: true, primaryKey: true, autoIncrement: true })
-	id: number
+	id: number;
 
 	@ApiProperty({ example: '3', description: 'id of the aroma' })
 	@ForeignKey(() => Aroma)
 	@Column(DataType.INTEGER)
-	aroma_id: Aroma
+	aroma_id: Aroma;
 
 	@BelongsTo(() => Aroma)
 	aroma: Aroma;

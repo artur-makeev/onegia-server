@@ -32,9 +32,9 @@ export class AromasService {
 				ON aroma_category_id = aroma_categories.id
 				WHERE products_aromas.product_id = ${product_id};
 				` , { type: QueryTypes.SELECT }
-			)
+			);
 			const aromaCategories = data.map(item => {
-				return { id: item.aroma_category_id, name: item.aroma_category_name }
+				return { id: item.aroma_category_id, name: item.aroma_category_name };
 			});
 
 			const filteredAromaCategories = aromaCategories.reduce((acc, current) => {
@@ -48,7 +48,7 @@ export class AromasService {
 
 
 			const aromas = data.map(item => {
-				return { id: item.id, name: item.name, aromaCategory: item.aroma_category_id }
+				return { id: item.id, name: item.name, aromaCategory: item.aroma_category_id };
 			});
 
 			return { aromas: aromas, aromaCategories: filteredAromaCategories };
@@ -62,10 +62,10 @@ export class AromasService {
 			const aromasRaw = await this.aromasRepository.findAll({
 				where: { aroma_category_id: aromaCategoryId },
 				raw: true,
-			})
+			});
 			const aromas = aromasRaw.map(item => {
 				return { id: item.id, name: item.name };
-			})
+			});
 			return aromas;
 		} catch (e) {
 			console.log(e.message);
@@ -77,7 +77,7 @@ export class AromasService {
 			const aromaRaw = await this.aromasDescriptionRepository.findOne({
 				where: { aroma_id: aromaId },
 				raw: true,
-			})
+			});
 			const aroma = { top: aromaRaw.top, heart: aromaRaw.heart, base: aromaRaw.base };
 			return aroma;
 		} catch (e) {

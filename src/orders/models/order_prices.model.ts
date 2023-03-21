@@ -6,26 +6,31 @@ interface OrderPriceCreationAttrs {
 	price: number
 	shipping_price: number
 	order_id: number
+	client_paid: number
 }
 
 @Table({ tableName: 'order_price', underscored: true })
 export class OrderPrice extends Model<OrderPrice, OrderPriceCreationAttrs> {
 	@ApiProperty({ example: '1', description: 'unique identifier' })
 	@Column({ type: DataType.INTEGER, unique: true, primaryKey: true, autoIncrement: true })
-	id: number
+	id: number;
 
 	@ApiProperty({ example: '300', description: 'order products total price' })
 	@Column({ type: DataType.INTEGER, allowNull: false })
-	price: number
+	price: number;
 
 	@ApiProperty({ example: '200', description: 'shipping price' })
 	@Column({ type: DataType.INTEGER, allowNull: false })
-	shipping_price: number
+	shipping_price: number;
+
+	@ApiProperty({ example: '300', description: 'amount paid by client' })
+	@Column({ type: DataType.INTEGER })
+	client_paid: number;
 
 	@ApiProperty({ example: '4', description: 'order id' })
 	@ForeignKey(() => Order)
 	@Column({ type: DataType.INTEGER })
-	order_id: Order
+	order_id: Order;
 
 	@BelongsTo(() => Order)
 	order: Order;
