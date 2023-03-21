@@ -10,14 +10,14 @@ async function bootstrap() {
   app.enableCors({
     credentials: true,
     origin: (origin, callback) => {
-      if (process.env.CLIENT_URL === 'http://localhost:3000') {
+      if (origin === process.env.CP_URL ||
+        origin === process.env.CP_URL2 ||
+        origin === process.env.CLIENT_URL ||
+        origin === process.env.CLIENT_URL2 ||
+        robokassaIps.test(origin)) {
         callback(null, true);
       } else {
-        if (!origin || origin === process.env.CLIENT_URL || origin === process.env.CLIENT_URL2 || robokassaIps.test(origin)) {
-          callback(null, true);
-        } else {
-          callback(new Error('Not allowed by CORS'));
-        }
+        callback(new Error('Not allowed by CORS'));
       }
     }
   });
