@@ -8,10 +8,7 @@ import { GetProductsDto } from './dto/products.dto';
 @ApiTags('Products')
 @Controller('api/product')
 export class ProductsController {
-
-	constructor(
-		private productsService: ProductsService,
-	) {}
+	constructor(private productsService: ProductsService) {}
 
 	@ApiOperation({ summary: 'get all products' })
 	@ApiResponse({ status: 200, type: [Product] })

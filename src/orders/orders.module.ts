@@ -10,11 +10,17 @@ import { MailModule } from 'src/mail_service/mail_service.module';
 import { OrderPrice } from './models/order_prices.model';
 
 @Module({
-  providers: [OrdersService],
-  controllers: [OrdersController],
-  imports: [
-    MailModule,
-    SequelizeModule.forFeature([Order, OrderPrice, OrderAddress, OrderProduct, Product])
-  ]
+	providers: [OrdersService],
+	controllers: [OrdersController],
+	imports: [
+		MailModule,
+		SequelizeModule.forFeature([
+			Order,
+			OrderPrice,
+			OrderAddress,
+			OrderProduct,
+			Product,
+		]),
+	],
 })
 export class OrdersModule {}

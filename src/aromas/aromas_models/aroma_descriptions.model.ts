@@ -1,18 +1,33 @@
-import { Column, DataType, Model, Table, ForeignKey, BelongsTo } from 'sequelize-typescript';
+import {
+	Column,
+	DataType,
+	Model,
+	Table,
+	ForeignKey,
+	BelongsTo,
+} from 'sequelize-typescript';
 import { Aroma } from './aromas.model';
 import { ApiProperty } from '@nestjs/swagger/dist/decorators';
 
 interface AromaDescriptionCreationAttrs {
-	top: string
-	heart: string
-	base: string
-	aroma_id: number
+	top: string;
+	heart: string;
+	base: string;
+	aroma_id: number;
 }
 
 @Table({ tableName: 'aroma_descriptions', underscored: true })
-export class AromaDescription extends Model<AromaDescription, AromaDescriptionCreationAttrs> {
+export class AromaDescription extends Model<
+	AromaDescription,
+	AromaDescriptionCreationAttrs
+> {
 	@ApiProperty({ example: '1', description: 'unique identifier' })
-	@Column({ type: DataType.INTEGER, unique: true, primaryKey: true, autoIncrement: true })
+	@Column({
+		type: DataType.INTEGER,
+		unique: true,
+		primaryKey: true,
+		autoIncrement: true,
+	})
 	id: number;
 
 	@ApiProperty({ example: 'honey', description: 'top flavor' })

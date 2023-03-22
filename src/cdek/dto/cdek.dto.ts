@@ -15,6 +15,9 @@ export class GetDeliveryDetailsDto {
 	@ApiProperty({ example: 'address', description: 'delivery address' })
 	readonly to_address: string;
 
-	@ApiProperty({ example: '{1: 3, 2: 5}', description: 'object with products ids and their count: {productId: count}' })
+	@ApiProperty({
+		example: '{1: 3, 2: 5}',
+		description: 'object with products ids and their count: {productId: count}',
+	})
 	readonly packageProducts: ProductsWithIds;
 }

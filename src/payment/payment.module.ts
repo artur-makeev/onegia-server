@@ -7,11 +7,8 @@ import { PaymentController } from './payment.controller';
 import { RoboKassaService } from './robokassa.service';
 
 @Module({
-  controllers: [PaymentController],
-  providers: [RoboKassaService],
-  imports: [
-    MailModule,
-    SequelizeModule.forFeature([Order, OrderPrice])
-  ]
+	controllers: [PaymentController],
+	providers: [RoboKassaService],
+	imports: [MailModule, SequelizeModule.forFeature([Order, OrderPrice])],
 })
 export class PaymentModule {}

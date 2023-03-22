@@ -5,9 +5,8 @@ import { Product } from './models/products.model';
 
 @Injectable()
 export class ProductsService {
-
 	constructor(
-		@InjectModel(Product) private productRepository: typeof Product
+		@InjectModel(Product) private productRepository: typeof Product,
 	) {}
 
 	async getAllProducts(query: GetProductsDto) {
@@ -25,11 +24,9 @@ export class ProductsService {
 					where: { category_id },
 					attributes: { exclude: ['createdAt', 'updatedAt'] },
 					raw: true,
-					order: [
-						['id', 'ASC']
-					],
+					order: [['id', 'ASC']],
 					limit,
-					offset
+					offset,
 				});
 			}
 
@@ -37,22 +34,30 @@ export class ProductsService {
 				products = await this.productRepository.findAndCountAll({
 					attributes: { exclude: ['createdAt', 'updatedAt'] },
 					raw: true,
-					order: [
-						['id', 'ASC']
-					],
+					order: [['id', 'ASC']],
 					limit,
-					offset
+					offset,
 				});
 			}
-			const orderedProducts = { count: products.count, rows: this.sortProducts(products.rows) };
+			const orderedProducts = {
+				count: products.count,
+				rows: this.sortProducts(products.rows),
+			};
 			return orderedProducts;
 		} catch (e) {
 			console.log(e.message);
-
-		};
+		}
 	}
 
 	sortProducts(products) {
-		return [products[6], products[0], products[4], products[3], products[1], products[2], products[5]];
+		return [
+			products[6],
+			products[0],
+			products[4],
+			products[3],
+			products[1],
+			products[2],
+			products[5],
+		];
 	}
 }

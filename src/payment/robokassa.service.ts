@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/sequelize';
 import { MailService } from 'src/mail_service/mail.service';
 import { Order } from 'src/orders/models/orders.model';
 import { OrderPrice } from 'src/orders/models/order_prices.model';
+
 let crypto;
 try {
 	crypto = require('node:crypto');
@@ -10,23 +11,26 @@ try {
 	console.log('crypto support is disabled!');
 }
 
-import { GeneratePaymentUrlDto, PaymentConfirmationDto } from './dto/payment.dto';
+import {
+	GeneratePaymentUrlDto,
+	PaymentConfirmationDto,
+} from './dto/payment.dto';
+
 import { Payment } from './interfaces/interfaces';
 
-
 interface Config {
-	merchantLogin: string,
-	hashingAlgorithm: string,
-	password1: string,
-	password2: string,
-	testPassword1: string,
-	testPassword2: string,
-	testMode: boolean,
-	resultUrlRequestMethod: 'POST',
-	paymentUrlTemplate: string,
-	encoding: 'UTF-8',
-	description: string
-	taxSystem: string
+	merchantLogin: string;
+	hashingAlgorithm: string;
+	password1: string;
+	password2: string;
+	testPassword1: string;
+	testPassword2: string;
+	testMode: boolean;
+	resultUrlRequestMethod: 'POST';
+	paymentUrlTemplate: string;
+	encoding: 'UTF-8';
+	description: string;
+	taxSystem: string;
 }
 
 @Injectable()
@@ -36,7 +40,7 @@ export class RoboKassaService {
 	constructor(
 		@Inject(MailService) private mailService: MailService,
 		@InjectModel(Order) private orderRepository: typeof Order,
-		@InjectModel(OrderPrice) private orderPriceRepository: typeof OrderPrice
+		@InjectModel(OrderPrice) private orderPriceRepository: typeof OrderPrice,
 	) {
 		this.config = {
 			merchantLogin: process.env.ROBOKASSA_LOGIN,
@@ -57,7 +61,7 @@ export class RoboKassaService {
 	generatePaymentUrl({ outSum, invId, items }: GeneratePaymentUrlDto): Payment {
 		const receipt = {
 			sno: this.config.taxSystem,
-			items: items
+			items: items,
 		};
 
 		const receiptURI = encodeURIComponent(JSON.stringify(receipt));
@@ -71,8 +75,8 @@ export class RoboKassaService {
 				SignatureValue: this.calculateSignature(outSum, invId, receiptURI),
 				InvId: invId,
 				Encoding: this.config.encoding,
-				Receipt: encodeURIComponent(receiptURI)
-			}
+				Receipt: encodeURIComponent(receiptURI),
+			},
 		};
 
 		if (this.config.testMode) {
@@ -82,8 +86,14 @@ export class RoboKassaService {
 		return payment;
 	}
 
-	calculateSignature(outSum: string, invId: string, receiptURI: string): string {
-		const password = this.config.testMode ? this.config.testPassword1 : this.config.password1;
+	calculateSignature(
+		outSum: string,
+		invId: string,
+		receiptURI: string,
+	): string {
+		const password = this.config.testMode
+			? this.config.testPassword1
+			: this.config.password1;
 		const signature = `${this.config.merchantLogin}:${outSum}:${invId}:${receiptURI}:${password}`;
 
 		return this.calculateHash(signature);
@@ -96,13 +106,19 @@ export class RoboKassaService {
 		return hash.digest('hex');
 	}
 
-
-	async confirmPayment({ OutSum, InvId, SignatureValue }: PaymentConfirmationDto) {
-
+	async confirmPayment({
+		OutSum,
+		InvId,
+		SignatureValue,
+	}: PaymentConfirmationDto) {
 		if (this.validateSignature(SignatureValue, OutSum, InvId)) {
-			const orderCost = await this.orderPriceRepository.findOne({ where: { order_id: InvId } });
-			if ((orderCost.price + orderCost.shipping_price) === +OutSum) {
-				let order = await this.orderRepository.findOne({ where: { id: InvId } });
+			const orderCost = await this.orderPriceRepository.findOne({
+				where: { order_id: InvId },
+			});
+			if (orderCost.price + orderCost.shipping_price === +OutSum) {
+				let order = await this.orderRepository.findOne({
+					where: { id: InvId },
+				});
 				orderCost.set({ client_paid: +OutSum });
 				await orderCost.save();
 				order.set({ status: 'Оплачен' });
@@ -113,20 +129,20 @@ export class RoboKassaService {
 			return 'order sum doesnt match';
 		}
 		return 'bad sign';
-
 	}
 
-
 	validateSignature(signature: string, outSum: string, invId: string): boolean {
-		return (signature.toLowerCase() == this.calculateResultUrlHash(outSum, invId).toLowerCase());
+		return (
+			signature.toLowerCase() ==
+			this.calculateResultUrlHash(outSum, invId).toLowerCase()
+		);
 	}
 
 	calculateResultUrlHash(outSum: string, invId: string): string {
-		const password = this.config.testMode ? this.config.testPassword2 : this.config.password2;
+		const password = this.config.testMode
+			? this.config.testPassword2
+			: this.config.password2;
 
 		return this.calculateHash(`${outSum}:${invId}:${password}`);
-
 	}
-
-
 }

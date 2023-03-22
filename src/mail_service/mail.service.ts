@@ -8,11 +8,11 @@ import { daySpelling } from './helpers/daySpelling';
 export class MailService {
 	constructor(
 		private readonly mailerService: MailerService,
-		@InjectModel(Aroma) private aromaRepository: typeof Aroma
+		@InjectModel(Aroma) private aromaRepository: typeof Aroma,
 	) {}
 
 	private async emailData(orderWithProducts) {
-		const products = orderWithProducts.map((item) => {
+		const products = orderWithProducts.map(item => {
 			return {
 				productName: item['product.name'],
 				productAroma: item.aroma_id,
@@ -22,12 +22,14 @@ export class MailService {
 		});
 
 		const productsCounted = products.reduce((acc, cur) => {
-			if (acc.some(item => {
-				if (+item.productAroma === +cur.productAroma) {
-					item.count++;
-					return true;
-				}
-			})) {
+			if (
+				acc.some(item => {
+					if (+item.productAroma === +cur.productAroma) {
+						item.count++;
+						return true;
+					}
+				})
+			) {
 				return acc;
 			} else {
 				acc.push(cur);
@@ -46,14 +48,18 @@ export class MailService {
 		}
 
 		const totalProductsPrice = productsCounted.reduce((sum, cur) => {
-			return sum += (+cur.count * +cur.productPrice);
+			return (sum += +cur.count * +cur.productPrice);
 		}, 0);
 
 		const totalCount = productsCounted.reduce((sum, cur) => {
-			return sum += +cur.count;
+			return (sum += +cur.count);
 		}, 0);
 
-		return { productsText: productsText, totalProductsPrice: totalProductsPrice, totalCount: totalCount };
+		return {
+			productsText: productsText,
+			totalProductsPrice: totalProductsPrice,
+			totalCount: totalCount,
+		};
 	}
 
 	public async orderPaidNotificationToAdmin(orderId, sum) {
@@ -63,13 +69,12 @@ export class MailService {
 				to: process.env.CLIENT_SERVICE_EMAIL,
 				subject: `Заказ №${orderId} оплачен`,
 				text: '',
-				html:
-					`
+				html: `
 					<div>
 						<h1>Поступила оплата по заказу №${orderId}<h1>
 						<p>Сумма оплаты :${sum} руб.</p>
 					</div>
-					`
+					`,
 			});
 		} catch (e) {
 			console.log(e.message);
@@ -88,23 +93,25 @@ export class MailService {
 		shippingTime,
 		shippingPrice,
 		contact,
-		orderWithProducts
+		orderWithProducts,
 	) {
-		const { productsText, totalProductsPrice, totalCount } = await this.emailData(orderWithProducts);
+		const { productsText, totalProductsPrice, totalCount } =
+			await this.emailData(orderWithProducts);
 		let deliveryDetails = '';
 		let deliveryPrice = '';
 		let totalPrice = '';
 
 		switch (shippingType) {
 			case 'pickup':
-				console.log('case pickup');
 				deliveryDetails = '<p>Самовывоз в тц "Пирамида"</p>';
 				break;
 			case 'cdek':
 				deliveryDetails = `<p>Выбран пункт СДЭК: ${address}</p>\
 				<p>Доставка займет ${shippingTime} ${daySpelling(shippingTime)}</p>`;
 				deliveryPrice = `<p>Стоимость доставки: ${shippingPrice} ₽</p>`;
-				totalPrice = `<p>Общая стоимость: ${parseInt(totalProductsPrice) + parseInt(shippingPrice)} ₽</p>`;
+				totalPrice = `<p>Общая стоимость: ${
+					parseInt(totalProductsPrice) + parseInt(shippingPrice)
+				} ₽</p>`;
 				break;
 			case 'yandex':
 				deliveryDetails = '<p>Яндекс Доставка</p>';
@@ -120,8 +127,7 @@ export class MailService {
 				to: process.env.CLIENT_SERVICE_EMAIL,
 				subject: `Новый заказ №${orderId}`,
 				text: '',
-				html:
-					`
+				html: `
 					<body>
 						<h1>Поступил новый заказ №${orderId}<h1>
 						<p>Покупатель: ${lastName} ${firstName} ${fatherName}</p>
@@ -137,13 +143,12 @@ export class MailService {
 						${deliveryPrice}
 						${totalPrice}
 					</body>
-					`
+					`,
 			});
 		} catch (e) {
 			console.log('Email to admin failed:');
 			console.log(e.message);
 		}
-
 	}
 
 	public async sendOrderNotificationToClient(
@@ -157,9 +162,10 @@ export class MailService {
 		shippingType,
 		shippingTime,
 		shippingPrice,
-		orderWithProducts
+		orderWithProducts,
 	) {
-		const { productsText, totalProductsPrice, totalCount } = await this.emailData(orderWithProducts);
+		const { productsText, totalProductsPrice, totalCount } =
+			await this.emailData(orderWithProducts);
 		let deliveryDetails = '';
 		let deliveryPrice = '';
 		let totalPrice = '';
@@ -172,9 +178,13 @@ export class MailService {
 				break;
 			case 'cdek':
 				deliveryDetails = `<p>Выбран пункт СДЭК: ${address}</p>`;
-				deliveryTime = `<p>Доставка займет ${shippingTime} ${daySpelling(shippingTime)} </p>`;
+				deliveryTime = `<p>Доставка займет ${shippingTime} ${daySpelling(
+					shippingTime,
+				)} </p>`;
 				deliveryPrice = `<p>Стоимость доставки: ${shippingPrice} ₽</p>`;
-				totalPrice = `<p>Общая стоимость: ${parseInt(totalProductsPrice) + parseInt(shippingPrice)} ₽</p>`;
+				totalPrice = `<p>Общая стоимость: ${
+					parseInt(totalProductsPrice) + parseInt(shippingPrice)
+				} ₽</p>`;
 				break;
 			case 'yandex':
 				deliveryDetails = '<p>Заказ будет направлен Яндекс доставкой</p>';
@@ -191,8 +201,7 @@ export class MailService {
 				to: email,
 				subject: `Заказ в интернет-магазине ${process.env.COMPANY_NAME} принят`,
 				text: '',
-				html:
-					`
+				html: `
 					<body>
 						<p>Здравствуйте, ${firstName}!</p>
 						<p>Ваш заказ №${orderId} принят.</p>
@@ -212,7 +221,7 @@ export class MailService {
 						<p>При наличии вопросов обращайтесь по адресу: ${process.env.CLIENT_SERVICE_EMAIL}</p>
 						<p>Команда <a href=${process.env.CLIENT_URL}>${process.env.COMPANY_NAME}</a></p>
 					</body>
-				`
+				`,
 			});
 		} catch (e) {
 			console.log('Email to client failed:');

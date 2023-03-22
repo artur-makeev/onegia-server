@@ -7,10 +7,10 @@ import { AromaCategory } from './aromas_models/aroma_categories.model';
 import { AromaDescription } from './aromas_models/aroma_descriptions.model';
 
 @Module({
-  controllers: [AromasController],
-  providers: [AromasService],
-  imports: [
-    SequelizeModule.forFeature([Aroma, AromaCategory, AromaDescription]),
-  ]
+	controllers: [AromasController],
+	providers: [AromasService],
+	imports: [
+		SequelizeModule.forFeature([Aroma, AromaCategory, AromaDescription]),
+	],
 })
-export class AromasModule { }
+export class AromasModule {}

@@ -2,7 +2,11 @@ import { Controller, Get, Query, Body, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger/dist/decorators';
 import { CdekService } from './cdek.service';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger/dist';
-import { GetAddressesDto, GetCitiesDto, GetDeliveryDetailsDto } from './dto/cdek.dto';
+import {
+	GetAddressesDto,
+	GetCitiesDto,
+	GetDeliveryDetailsDto,
+} from './dto/cdek.dto';
 
 @ApiTags('Cdek')
 @Controller('api/cdek')
@@ -43,5 +47,4 @@ export class CdekController {
 	calculate(@Body() body: GetDeliveryDetailsDto) {
 		return this.cdekService.getDeliveryDetails(body);
 	}
-
 }

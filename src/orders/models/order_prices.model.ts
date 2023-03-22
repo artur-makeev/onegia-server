@@ -1,18 +1,30 @@
 import { ApiProperty } from '@nestjs/swagger/dist/decorators';
-import { Column, DataType, Model, Table, ForeignKey, BelongsTo } from 'sequelize-typescript';
+import {
+	Column,
+	DataType,
+	Model,
+	Table,
+	ForeignKey,
+	BelongsTo,
+} from 'sequelize-typescript';
 import { Order } from './orders.model';
 
 interface OrderPriceCreationAttrs {
-	price: number
-	shipping_price: number
-	order_id: number
-	client_paid: number
+	price: number;
+	shipping_price: number;
+	order_id: number;
+	client_paid: number;
 }
 
 @Table({ tableName: 'order_price', underscored: true })
 export class OrderPrice extends Model<OrderPrice, OrderPriceCreationAttrs> {
 	@ApiProperty({ example: '1', description: 'unique identifier' })
-	@Column({ type: DataType.INTEGER, unique: true, primaryKey: true, autoIncrement: true })
+	@Column({
+		type: DataType.INTEGER,
+		unique: true,
+		primaryKey: true,
+		autoIncrement: true,
+	})
 	id: number;
 
 	@ApiProperty({ example: '300', description: 'order products total price' })

@@ -5,11 +5,8 @@ import { HttpModule } from '@nestjs/axios';
 import { ProductsModule } from 'src/products/products.module';
 
 @Module({
-  imports: [
-    HttpModule,
-    ProductsModule
-  ],
-  providers: [CdekService],
-  controllers: [CdekController]
+	imports: [HttpModule, ProductsModule],
+	providers: [CdekService],
+	controllers: [CdekController],
 })
 export class CdekModule {}

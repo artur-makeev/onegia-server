@@ -8,13 +8,14 @@ import { OrderAddress } from './models/order_addresses.model';
 import { OrderPrice } from './models/order_prices.model';
 import { OrderProduct } from './models/order_products.model';
 
-
 @Injectable()
 export class OrdersService {
 	constructor(
 		@InjectModel(Order) private orderRepository: typeof Order,
-		@InjectModel(OrderAddress) private orderAddressRepository: typeof OrderAddress,
-		@InjectModel(OrderProduct) private orderProductRepository: typeof OrderProduct,
+		@InjectModel(OrderAddress)
+		private orderAddressRepository: typeof OrderAddress,
+		@InjectModel(OrderProduct)
+		private orderProductRepository: typeof OrderProduct,
 		@InjectModel(OrderPrice) private orderPriceRepository: typeof OrderPrice,
 		@Inject(MailService) private mailService: MailService,
 	) {}
@@ -44,7 +45,7 @@ export class OrdersService {
 			price: productsPrice,
 			shipping_price: shippingPrice,
 			client_paid: 0,
-			order_id: order.id
+			order_id: order.id,
 		});
 
 		for (const item of basketProductsJS) {
@@ -52,7 +53,7 @@ export class OrdersService {
 				await this.orderProductRepository.create({
 					order_id: order.id,
 					product_id: item.productId,
-					aroma_id: item.aromaId
+					aroma_id: item.aromaId,
 				});
 			}
 		}
@@ -66,13 +67,14 @@ export class OrdersService {
 			address,
 			shipping_type: shippingType,
 			contact,
-			order_id: order.id
+			order_id: order.id,
 		});
 
 		const orderWithProducts = await this.orderProductRepository.findAll({
 			include: {
-				model: Product
-			}, where: { order_id: order.id },
+				model: Product,
+			},
+			where: { order_id: order.id },
 			raw: true,
 		});
 
@@ -88,7 +90,7 @@ export class OrdersService {
 			shippingTime,
 			shippingPrice,
 			contact,
-			orderWithProducts
+			orderWithProducts,
 		);
 
 		this.mailService.sendOrderNotificationToClient(
@@ -102,12 +104,12 @@ export class OrdersService {
 			shippingType,
 			shippingTime,
 			shippingPrice,
-			orderWithProducts
+			orderWithProducts,
 		);
 
 		return order.id;
-	} catch(e) {
+	}
+	catch(e) {
 		console.log(e.message);
 	}
 }
-

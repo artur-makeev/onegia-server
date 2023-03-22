@@ -2,8 +2,11 @@ import { HttpService } from '@nestjs/axios/dist';
 import { ForbiddenException, Inject, Injectable } from '@nestjs/common';
 import { map, catchError, lastValueFrom } from 'rxjs';
 import { PackageService } from 'src/products/package.service';
-import { GetAddressesDto, GetCitiesDto, GetDeliveryDetailsDto } from './dto/cdek.dto';
-
+import {
+	GetAddressesDto,
+	GetCitiesDto,
+	GetDeliveryDetailsDto,
+} from './dto/cdek.dto';
 
 @Injectable()
 export class CdekService {
@@ -21,18 +24,18 @@ export class CdekService {
 			const data = {
 				grant_type: 'client_credentials',
 				client_id: process.env.CDEK_ACCOUNT,
-				client_secret: process.env.CDEK_PASSWORD
+				client_secret: process.env.CDEK_PASSWORD,
 			};
 
 			const config = {
-				headers: { 'content-type': 'application/x-www-form-urlencoded' }
+				headers: { 'content-type': 'application/x-www-form-urlencoded' },
 			};
 
 			const request = this.httpService
 				.post(
 					`${process.env.CDEK_API_URL}/oauth/token?parameters`,
 					data,
-					config
+					config,
 				)
 				.pipe(map(response => response.data?.access_token))
 				.pipe(
@@ -45,7 +48,7 @@ export class CdekService {
 			return 0;
 		} catch (e) {
 			console.log(e.message);
-		};
+		}
 	}
 
 	async getRegions() {
@@ -54,8 +57,8 @@ export class CdekService {
 		}
 
 		const config = {
-			headers: { 'Authorization': `Bearer ${this.token}` },
-			params: { 'country_codes': 'RU' }
+			headers: { Authorization: `Bearer ${this.token}` },
+			params: { country_codes: 'RU' },
 		};
 
 		let regions;
@@ -82,7 +85,7 @@ export class CdekService {
 		regions = regions.map(region => {
 			return {
 				region: region.region,
-				region_code: region.region_code
+				region_code: region.region_code,
 			};
 		});
 		return regions;
@@ -94,8 +97,8 @@ export class CdekService {
 		}
 
 		const config = {
-			headers: { 'Authorization': `Bearer ${this.token}` },
-			params: { 'region_code': query.region_code }
+			headers: { Authorization: `Bearer ${this.token}` },
+			params: { region_code: query.region_code },
 		};
 
 		let cities;
@@ -137,8 +140,8 @@ export class CdekService {
 		}
 
 		const config = {
-			headers: { 'Authorization': `Bearer ${this.token}` },
-			params: { 'city_code': query.city_code }
+			headers: { Authorization: `Bearer ${this.token}` },
+			params: { city_code: query.city_code },
 		};
 
 		let addresses;
@@ -167,38 +170,44 @@ export class CdekService {
 				code: address.code,
 				address: address.location.address_full,
 				longitude: address.location.longitude,
-				latitude: address.location.latitude
+				latitude: address.location.latitude,
 			};
 		});
 
 		return addresses;
 	}
 
-	async getDeliveryDetails({ to_address, packageProducts }: GetDeliveryDetailsDto) {
-		const packageParameters = await this.packageService.getPackageParameters(packageProducts);
+	async getDeliveryDetails({
+		to_address,
+		packageProducts,
+	}: GetDeliveryDetailsDto) {
+		const packageParameters = await this.packageService.getPackageParameters(
+			packageProducts,
+		);
 
 		if (!this.token) {
 			await this.auth();
 		}
 
 		const config = {
-			headers: { 'Authorization': `Bearer ${this.token}` },
+			headers: { Authorization: `Bearer ${this.token}` },
 		};
 
 		const body = {
-			tariff_code: "136",
+			tariff_code: '136',
 			from_location: {
-				address: "Россия, Республика Карелия, Петрозаводск, Пр-т Первомайский, 15"
+				address:
+					'Россия, Республика Карелия, Петрозаводск, Пр-т Первомайский, 15',
 			},
 			to_location: {
-				address: to_address
+				address: to_address,
 			},
 			packages: {
 				weight: packageParameters.packageWeight,
 				length: packageParameters.packageSideLength,
 				width: packageParameters.packageSideLength,
-				height: packageParameters.packageSideLength
-			}
+				height: packageParameters.packageSideLength,
+			},
 		};
 
 		let deliveryDetails;
@@ -225,7 +234,7 @@ export class CdekService {
 		deliveryDetails = {
 			total_sum: deliveryDetails.total_sum,
 			period_min: deliveryDetails.period_min,
-			period_max: deliveryDetails.period_max
+			period_max: deliveryDetails.period_max,
 		};
 		return deliveryDetails;
 	}

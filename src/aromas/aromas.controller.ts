@@ -1,10 +1,17 @@
 import { Controller, Get, Param } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger/dist/decorators';
+import {
+	ApiOperation,
+	ApiResponse,
+	ApiTags,
+} from '@nestjs/swagger/dist/decorators';
 import { AromasService } from './aromas.service';
 import { Aroma } from './aromas_models/aromas.model';
-import { GetAromaDescriptionDto, GetAromasByCategoryDto, GetAromasByProductDto } from './dto/aroma.dto';
+import {
+	GetAromaDescriptionDto,
+	GetAromasByCategoryDto,
+	GetAromasByProductDto,
+} from './dto/aroma.dto';
 import { ReturnAromaDescription } from './examples/examples';
-
 
 @ApiTags('Aromas')
 @Controller('api/aroma')
@@ -17,7 +24,6 @@ export class AromasController {
 	getAromasByProduct(@Param() reqParam: GetAromasByProductDto) {
 		return this.aromasService.getAromasByProduct(reqParam.product_id);
 	}
-
 
 	@ApiOperation({ summary: 'get aromas by aroma category' })
 	@ApiResponse({ status: 200, type: [Aroma] })

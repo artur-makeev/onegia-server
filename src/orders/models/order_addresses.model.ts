@@ -1,23 +1,38 @@
-import { Column, DataType, Model, Table, BelongsTo, ForeignKey } from 'sequelize-typescript';
+import {
+	Column,
+	DataType,
+	Model,
+	Table,
+	BelongsTo,
+	ForeignKey,
+} from 'sequelize-typescript';
 import { Order } from './orders.model';
 import { ApiProperty } from '@nestjs/swagger/dist/decorators';
 
 interface OrderAddressCreationAttrs {
-	last_name: string
-	first_name: string
-	father_name: string
-	email: string
-	phone: string
-	address: string
-	shipping_type: string
-	contact: string
-	order_id: number
+	last_name: string;
+	first_name: string;
+	father_name: string;
+	email: string;
+	phone: string;
+	address: string;
+	shipping_type: string;
+	contact: string;
+	order_id: number;
 }
 
 @Table({ tableName: 'order_addresses', underscored: true })
-export class OrderAddress extends Model<OrderAddress, OrderAddressCreationAttrs> {
+export class OrderAddress extends Model<
+	OrderAddress,
+	OrderAddressCreationAttrs
+> {
 	@ApiProperty({ example: '1', description: 'unique identifier' })
-	@Column({ type: DataType.INTEGER, unique: true, primaryKey: true, autoIncrement: true })
+	@Column({
+		type: DataType.INTEGER,
+		unique: true,
+		primaryKey: true,
+		autoIncrement: true,
+	})
 	id: number;
 
 	@ApiProperty({ example: 'Brown', description: 'lastname' })
@@ -40,7 +55,10 @@ export class OrderAddress extends Model<OrderAddress, OrderAddressCreationAttrs>
 	@Column({ type: DataType.STRING })
 	phone: string;
 
-	@ApiProperty({ example: '309 Regent St., London W1B 2HW', description: 'address' })
+	@ApiProperty({
+		example: '309 Regent St., London W1B 2HW',
+		description: 'address',
+	})
 	@Column({ type: DataType.STRING })
 	address: string;
 
@@ -48,7 +66,10 @@ export class OrderAddress extends Model<OrderAddress, OrderAddressCreationAttrs>
 	@Column({ type: DataType.STRING })
 	shipping_type: string;
 
-	@ApiProperty({ example: 'telegram', description: 'clients contact preference' })
+	@ApiProperty({
+		example: 'telegram',
+		description: 'clients contact preference',
+	})
 	@Column({ type: DataType.STRING })
 	contact: string;
 
@@ -59,5 +80,4 @@ export class OrderAddress extends Model<OrderAddress, OrderAddressCreationAttrs>
 
 	@BelongsTo(() => Order)
 	order: Order;
-
 }

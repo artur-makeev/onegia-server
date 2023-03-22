@@ -5,19 +5,19 @@ import { AromaCategory } from './aromas_models/aroma_categories.model';
 import { AromaDescription } from './aromas_models/aroma_descriptions.model';
 
 interface AromaQuery {
-	id: number,
-	name: string,
-	aroma_category_id: number,
-	aroma_category_name: string
+	id: number;
+	name: string;
+	aroma_category_id: number;
+	aroma_category_name: string;
 }
 
 export class AromasService {
-
 	constructor(
-		@InjectModel(AromaCategory) private aromaCategoriesRepository: typeof AromaCategory,
+		@InjectModel(AromaCategory)
+		private aromaCategoriesRepository: typeof AromaCategory,
 		@InjectModel(Aroma) private aromasRepository: typeof Aroma,
-		@InjectModel(AromaDescription) private aromasDescriptionRepository: typeof AromaDescription
-
+		@InjectModel(AromaDescription)
+		private aromasDescriptionRepository: typeof AromaDescription,
 	) {}
 
 	async getAromasByProduct(product_id: number) {
@@ -31,7 +31,8 @@ export class AromasService {
 				INNER JOIN aroma_categories
 				ON aroma_category_id = aroma_categories.id
 				WHERE products_aromas.product_id = ${product_id};
-				` , { type: QueryTypes.SELECT }
+				`,
+				{ type: QueryTypes.SELECT },
 			);
 			const aromaCategories = data.map(item => {
 				return { id: item.aroma_category_id, name: item.aroma_category_name };
@@ -46,9 +47,12 @@ export class AromasService {
 				}
 			}, []);
 
-
 			const aromas = data.map(item => {
-				return { id: item.id, name: item.name, aromaCategory: item.aroma_category_id };
+				return {
+					id: item.id,
+					name: item.name,
+					aromaCategory: item.aroma_category_id,
+				};
 			});
 
 			return { aromas: aromas, aromaCategories: filteredAromaCategories };
@@ -78,7 +82,11 @@ export class AromasService {
 				where: { aroma_id: aromaId },
 				raw: true,
 			});
-			const aroma = { top: aromaRaw.top, heart: aromaRaw.heart, base: aromaRaw.base };
+			const aroma = {
+				top: aromaRaw.top,
+				heart: aromaRaw.heart,
+				base: aromaRaw.base,
+			};
 			return aroma;
 		} catch (e) {
 			console.log(e.message);

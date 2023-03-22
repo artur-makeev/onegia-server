@@ -5,9 +5,7 @@ import { MailService } from './mail.service';
 
 @Module({
 	providers: [MailService],
-	imports: [
-		SequelizeModule.forFeature([Aroma]),
-	],
-	exports: [MailService]
+	imports: [SequelizeModule.forFeature([Aroma])],
+	exports: [MailService],
 })
-export class MailModule { } 
+export class MailModule {}

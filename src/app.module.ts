@@ -28,61 +28,61 @@ import { AppController } from './app.controller';
 import { ManagementModule } from './management/management.module';
 
 @Module({
-  imports: [
-    ConfigModule.forRoot(),
-    ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'static'),
-      serveRoot: '/static',
-    }),
-    SequelizeModule.forRoot({
-      dialect: 'postgres',
-      host: process.env.DB_HOST,
-      port: +process.env.DB_PORT,
-      username: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME,
-      models: [
-        Product,
-        Category,
-        Aroma,
-        ProductAroma,
-        AromaCategory,
-        AromaDescription,
-        Order,
-        OrderProduct,
-        OrderAddress,
-        OrderPrice,
-        Package
-      ],
-      autoLoadModels: true,
-      timezone: '+03:00',
-    }),
-    MailerModule.forRoot({
-      transport: {
-        host: process.env.SMTP_HOST,
-        port: process.env.SMTP_PORT,
-        secure: true,
-        auth: {
-          user: process.env.SMTP_USER,
-          pass: process.env.SMTP_PASSWORD,
-        },
-      },
-      defaults: {
-        from: '"nest-modules" <modules@nestjs.com>',
-      },
-    }),
-    ProductsModule,
-    CategoriesModule,
-    AromasModule,
-    OrdersModule,
-    MailModule,
-    CdekModule,
-    PaymentModule,
-    AuthModule,
-    UsersModule,
-    ManagementModule,
-  ],
-  controllers: [AppController],
-  providers: [],
+	imports: [
+		ConfigModule.forRoot(),
+		ServeStaticModule.forRoot({
+			rootPath: join(__dirname, '..', 'static'),
+			serveRoot: '/static',
+		}),
+		SequelizeModule.forRoot({
+			dialect: 'postgres',
+			host: process.env.DB_HOST,
+			port: +process.env.DB_PORT,
+			username: process.env.DB_USER,
+			password: process.env.DB_PASSWORD,
+			database: process.env.DB_NAME,
+			models: [
+				Product,
+				Category,
+				Aroma,
+				ProductAroma,
+				AromaCategory,
+				AromaDescription,
+				Order,
+				OrderProduct,
+				OrderAddress,
+				OrderPrice,
+				Package,
+			],
+			autoLoadModels: true,
+			timezone: '+03:00',
+		}),
+		MailerModule.forRoot({
+			transport: {
+				host: process.env.SMTP_HOST,
+				port: process.env.SMTP_PORT,
+				secure: true,
+				auth: {
+					user: process.env.SMTP_USER,
+					pass: process.env.SMTP_PASSWORD,
+				},
+			},
+			defaults: {
+				from: '"nest-modules" <modules@nestjs.com>',
+			},
+		}),
+		ProductsModule,
+		CategoriesModule,
+		AromasModule,
+		OrdersModule,
+		MailModule,
+		CdekModule,
+		PaymentModule,
+		AuthModule,
+		UsersModule,
+		ManagementModule,
+	],
+	controllers: [AppController],
+	providers: [],
 })
 export class AppModule {}

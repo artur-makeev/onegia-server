@@ -12,21 +12,25 @@ import { Product } from 'src/products/models/products.model';
 export class ManagementService {
 	constructor(
 		@InjectModel(Order) private orderRepository: typeof Order,
-		@InjectModel(OrderAddress) private orderAddressRepository: typeof OrderAddress,
-		@InjectModel(OrderProduct) private orderProductRepository: typeof OrderProduct,
+		@InjectModel(OrderAddress)
+		private orderAddressRepository: typeof OrderAddress,
+		@InjectModel(OrderProduct)
+		private orderProductRepository: typeof OrderProduct,
 		@InjectModel(OrderPrice) private orderPriceRepository: typeof OrderPrice,
 		@InjectModel(Product) private productRepository: typeof Product,
 		@InjectModel(Aroma) private aromaRepository: typeof Aroma,
 	) {}
 
 	private countProducts(orders) {
-
 		for (const order of orders) {
 			const countedProducts = [];
 
 			for (const product of order.order_products) {
-				const productPresent = countedProducts.findIndex((element) => {
-					return element.product_name === product.product.name && element.aroma_name === product.aroma.name;
+				const productPresent = countedProducts.findIndex(element => {
+					return (
+						element.product_name === product.product.name &&
+						element.aroma_name === product.aroma.name
+					);
 				});
 
 				if (productPresent > -1) {
@@ -35,7 +39,7 @@ export class ManagementService {
 					countedProducts.push({
 						product_name: product.product.name,
 						aroma_name: product.aroma.name,
-						count: 1
+						count: 1,
 					});
 				}
 			}
@@ -56,99 +60,90 @@ export class ManagementService {
 					[Op.and]: [
 						{
 							status: {
-								[Op.ne]: 'complete'
-							}
+								[Op.ne]: 'complete',
+							},
 						},
 						{
 							status: {
-								[Op.ne]: 'cancelled'
-							}
-						}
-					]
-				},
-				order: [
-					['id', 'DESC'],
-				],
-				include: [{
-					model: this.orderAddressRepository,
-					attributes: [
-						'last_name',
-						'first_name',
-						'father_name',
-						'email',
-						'phone',
-						'address',
-						'shipping_type',
-						'contact'
-					]
-				},
-				{
-					model: this.orderPriceRepository,
-					attributes: [
-						'price',
-						'shipping_price',
-						'client_paid'
-					]
-				},
-				{
-					model: this.orderProductRepository,
-					attributes: ['product_id', 'aroma_id'],
-					include: [
-						{
-							model: this.productRepository,
-							attributes: ['name']
+								[Op.ne]: 'cancelled',
+							},
 						},
-						{
-							model: this.aromaRepository,
-							attributes: ['name']
-						}
-					]
-				}],
+					],
+				},
+				order: [['id', 'DESC']],
+				include: [
+					{
+						model: this.orderAddressRepository,
+						attributes: [
+							'last_name',
+							'first_name',
+							'father_name',
+							'email',
+							'phone',
+							'address',
+							'shipping_type',
+							'contact',
+						],
+					},
+					{
+						model: this.orderPriceRepository,
+						attributes: ['price', 'shipping_price', 'client_paid'],
+					},
+					{
+						model: this.orderProductRepository,
+						attributes: ['product_id', 'aroma_id'],
+						include: [
+							{
+								model: this.productRepository,
+								attributes: ['name'],
+							},
+							{
+								model: this.aromaRepository,
+								attributes: ['name'],
+							},
+						],
+					},
+				],
 			});
 		} else {
 			orders = await this.orderRepository.findAll({
 				attributes: ['id', 'status', 'created_at'],
-				order: [
-					['id', 'DESC'],
+				order: [['id', 'DESC']],
+				include: [
+					{
+						model: this.orderAddressRepository,
+						attributes: [
+							'last_name',
+							'first_name',
+							'father_name',
+							'email',
+							'phone',
+							'address',
+							'shipping_type',
+							'contact',
+						],
+					},
+					{
+						model: this.orderPriceRepository,
+						attributes: ['price', 'shipping_price', 'client_paid'],
+					},
+					{
+						model: this.orderProductRepository,
+						attributes: ['product_id', 'aroma_id'],
+						include: [
+							{
+								model: this.productRepository,
+								attributes: ['name'],
+							},
+							{
+								model: this.aromaRepository,
+								attributes: ['name'],
+							},
+						],
+					},
 				],
-				include: [{
-					model: this.orderAddressRepository,
-					attributes: [
-						'last_name',
-						'first_name',
-						'father_name',
-						'email',
-						'phone',
-						'address',
-						'shipping_type',
-						'contact'
-					]
-				},
-				{
-					model: this.orderPriceRepository,
-					attributes: [
-						'price',
-						'shipping_price',
-						'client_paid'
-					]
-				},
-				{
-					model: this.orderProductRepository,
-					attributes: ['product_id', 'aroma_id'],
-					include: [
-						{
-							model: this.productRepository,
-							attributes: ['name']
-						},
-						{
-							model: this.aromaRepository,
-							attributes: ['name']
-						}
-					]
-				}],
 			});
 		}
-
 
 		orders = JSON.parse(JSON.stringify(orders));
 

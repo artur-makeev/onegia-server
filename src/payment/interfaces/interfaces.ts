@@ -1,13 +1,13 @@
 export interface Payment {
-	url: string,
+	url: string;
 	params: {
-		MerchantLogin: string,
-		OutSum: string,
-		Description: string,
-		SignatureValue: string,
-		InvId: string,
-		Encoding: string,
-		Receipt: string,
-		IsTest?: '0' | '1',
-	}
+		MerchantLogin: string;
+		OutSum: string;
+		Description: string;
+		SignatureValue: string;
+		InvId: string;
+		Encoding: string;
+		Receipt: string;
+		IsTest?: '0' | '1';
+	};
 }

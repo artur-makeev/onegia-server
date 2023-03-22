@@ -8,11 +8,9 @@ import { PackageService } from './package.service';
 import { ProductAroma } from './models/product_aroma.model';
 
 @Module({
-  controllers: [ProductsController],
-  providers: [ProductsService, PackageService],
-  imports: [
-    SequelizeModule.forFeature([Product, Package, ProductAroma])
-  ],
-  exports: [PackageService]
+	controllers: [ProductsController],
+	providers: [ProductsService, PackageService],
+	imports: [SequelizeModule.forFeature([Product, Package, ProductAroma])],
+	exports: [PackageService],
 })
 export class ProductsModule {}

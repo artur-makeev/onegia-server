@@ -22,11 +22,17 @@ export class CreateOrderDto {
 	@IsString()
 	readonly phone: string;
 
-	@ApiProperty({ example: '309 Regent St., London W1B 2HW', description: 'address' })
+	@ApiProperty({
+		example: '309 Regent St., London W1B 2HW',
+		description: 'address',
+	})
 	@IsString()
 	readonly address: string;
 
-	@ApiProperty({ example: 'telegram', description: 'clients communication preference' })
+	@ApiProperty({
+		example: 'telegram',
+		description: 'clients communication preference',
+	})
 	@IsString()
 	readonly contact: 'позвонить' | 'whatsup' | 'telegram' | 'email';
 
@@ -46,8 +52,10 @@ export class CreateOrderDto {
 	@IsNumberString()
 	readonly productsPrice: number;
 
-	@ApiProperty({ example: '{some fields}', description: 'products in the basket' })
+	@ApiProperty({
+		example: '{some fields}',
+		description: 'products in the basket',
+	})
 	@IsString()
 	readonly basketProducts: string;
-
 }

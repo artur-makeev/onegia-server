@@ -1,8 +1,11 @@
 import { Controller, Get } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger/dist/decorators';
+import {
+	ApiOperation,
+	ApiResponse,
+	ApiTags,
+} from '@nestjs/swagger/dist/decorators';
 import { Category } from './categories.model';
 import { CategoriesService } from './categories.service';
-
 
 @ApiTags('Products')
 @Controller('api/category')

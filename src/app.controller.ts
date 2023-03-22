@@ -18,5 +18,4 @@ export class AppController {
 	getToken() {
 		return 0;
 	}
-
 }

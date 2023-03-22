@@ -4,13 +4,14 @@ import { Category } from './categories.model';
 
 @Injectable()
 export class CategoriesService {
-
-	constructor(@InjectModel(Category) private categoryRepository: typeof Category) {}
+	constructor(
+		@InjectModel(Category) private categoryRepository: typeof Category,
+	) {}
 
 	async getAllCategories() {
 		try {
 			const category = await this.categoryRepository.findAll({
-				attributes: { exclude: ['createdAt', 'updatedAt'] }
+				attributes: { exclude: ['createdAt', 'updatedAt'] },
 			});
 			return category;
 		} catch (e) {

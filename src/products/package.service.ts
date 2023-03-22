@@ -5,9 +5,8 @@ import { ProductsWithIds } from './types/types';
 
 @Injectable()
 export class PackageService {
-
 	constructor(
-		@InjectModel(Package) private packageRepository: typeof Package
+		@InjectModel(Package) private packageRepository: typeof Package,
 	) {}
 
 	async getPackageParameters(products: ProductsWithIds) {
@@ -22,10 +21,10 @@ export class PackageService {
 
 			for (const product of productsArr) {
 				const productRecord = await this.packageRepository.findOne({
-					where: { product_id: product[0] }
+					where: { product_id: product[0] },
 				});
-				totalWeight += (productRecord.weight * product[1]);
-				totalVolume += (productRecord.volume * product[1]);
+				totalWeight += productRecord.weight * product[1];
+				totalVolume += productRecord.volume * product[1];
 			}
 
 			totalVolume = totalVolume * 4;
@@ -33,10 +32,10 @@ export class PackageService {
 
 			return {
 				packageWeight: totalWeight,
-				packageSideLength: sideLength
+				packageSideLength: sideLength,
 			};
 		} catch (e) {
 			console.log(e.message);
-		};
+		}
 	}
 }

@@ -10,10 +10,17 @@ import { ManagementController } from './management.controller';
 import { ManagementService } from './management.service';
 
 @Module({
-  controllers: [ManagementController],
-  providers: [ManagementService],
-  imports: [
-    SequelizeModule.forFeature([Order, OrderPrice, OrderAddress, OrderProduct, Product, Aroma])
-  ]
+	controllers: [ManagementController],
+	providers: [ManagementService],
+	imports: [
+		SequelizeModule.forFeature([
+			Order,
+			OrderPrice,
+			OrderAddress,
+			OrderProduct,
+			Product,
+			Aroma,
+		]),
+	],
 })
 export class ManagementModule {}
