@@ -12,8 +12,6 @@ export class MailService {
 	) {}
 
 	private async emailData(orderWithProducts) {
-		console.log('orderWithProducts')
-		console.log(orderWithProducts)
 		const products = orderWithProducts.map(item => {
 			return {
 				productName: item['product.name'],
@@ -26,7 +24,10 @@ export class MailService {
 		const productsCounted = products.reduce((acc, cur) => {
 			if (
 				acc.some(item => {
-					if (+item.productAroma === +cur.productAroma) {
+					if (
+						item.productName === cur.productName &&
+						+item.productAroma === +cur.productAroma
+					) {
 						item.count++;
 						return true;
 					}
