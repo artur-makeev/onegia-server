@@ -1,9 +1,7 @@
 import { Controller, Post, Body, Query, Get } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger/dist';
-import {
-	GeneratePaymentUrlDto,
-	PaymentConfirmationDto,
-} from './dto/payment.dto';
+import { PaymentConfirmationDto } from './dto/paymentConfirm.dto';
+import { GeneratePaymentUrlDto } from './dto/paymentUrl.dto';
 import { Payment } from './interfaces/interfaces';
 import { RoboKassaService } from './robokassa.service';
 

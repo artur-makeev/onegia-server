@@ -12,6 +12,8 @@ export class MailService {
 	) {}
 
 	private async emailData(orderWithProducts) {
+		console.log('orderWithProducts')
+		console.log(orderWithProducts)
 		const products = orderWithProducts.map(item => {
 			return {
 				productName: item['product.name'],
@@ -36,6 +38,9 @@ export class MailService {
 				return acc;
 			}
 		}, []);
+
+		console.log('productsCounted')
+		console.log(productsCounted)
 
 		let productsText = '';
 		for await (const item of productsCounted) {

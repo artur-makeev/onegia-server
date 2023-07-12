@@ -3,6 +3,9 @@ import { InjectModel } from '@nestjs/sequelize';
 import { MailService } from 'src/mail_service/mail.service';
 import { Order } from 'src/orders/models/orders.model';
 import { OrderPrice } from 'src/orders/models/order_prices.model';
+import { PaymentConfirmationDto } from './dto/paymentConfirm.dto';
+import { GeneratePaymentUrlDto } from './dto/paymentUrl.dto';
+import { Payment } from './interfaces/interfaces';
 
 let crypto;
 try {
@@ -10,13 +13,6 @@ try {
 } catch (err) {
 	console.log('crypto support is disabled!');
 }
-
-import {
-	GeneratePaymentUrlDto,
-	PaymentConfirmationDto,
-} from './dto/payment.dto';
-
-import { Payment } from './interfaces/interfaces';
 
 interface Config {
 	merchantLogin: string;
