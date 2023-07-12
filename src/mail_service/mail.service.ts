@@ -39,9 +39,6 @@ export class MailService {
 			}
 		}, []);
 
-		console.log('productsCounted')
-		console.log(productsCounted)
-
 		let productsText = '';
 		for await (const item of productsCounted) {
 			const aromaRaw = await this.aromaRepository.findOne({
