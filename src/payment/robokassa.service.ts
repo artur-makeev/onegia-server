@@ -112,13 +112,8 @@ export class RoboKassaService {
 				where: { order_id: InvId },
 			});
 			if (orderCost.price + orderCost.shipping_price === +OutSum) {
-				let order = await this.orderRepository.findOne({
-					where: { id: InvId },
-				});
 				orderCost.set({ client_paid: +OutSum });
 				await orderCost.save();
-				order.set({ status: 'Оплачен' });
-				order = await order.save();
 				this.mailService.orderPaidNotificationToAdmin(InvId, parseInt(OutSum));
 				return `OK${InvId}`;
 			}
