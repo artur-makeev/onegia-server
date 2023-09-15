@@ -2,6 +2,7 @@ import { Controller, Get, Request, Post, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { LocalAuthGuard } from './auth/local-auth.guard';
 import { AuthService } from './auth/auth.service';
+import { Headers } from '@nestjs/common';
 
 @Controller()
 export class AppController {
@@ -15,7 +16,7 @@ export class AppController {
 
 	@UseGuards(JwtAuthGuard)
 	@Get('auth/check')
-	getToken() {
-		return 0;
+	getToken(@Headers() headers) {
+		return this.authService.checkToken(headers.authorization);
 	}
 }
