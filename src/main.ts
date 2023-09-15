@@ -17,6 +17,8 @@ async function bootstrap() {
 				origin === process.env.CP_URL2 ||
 				origin === process.env.CLIENT_URL ||
 				origin === process.env.CLIENT_URL2 ||
+				origin === process.env.CP_URL_CYRILLIC ||
+				origin === process.env.CP_URL_CYRILLIC2 ||
 				robokassaIps.test(origin)
 			) {
 				callback(null, true);
