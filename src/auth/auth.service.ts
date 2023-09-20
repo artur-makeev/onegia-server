@@ -25,4 +25,10 @@ export class AuthService {
 			access_token: this.jwtService.sign(payload),
 		};
 	}
+
+	async checkToken(token: string) {
+		return {
+			access_token: token.slice(7),
+		};
+	}
 }
