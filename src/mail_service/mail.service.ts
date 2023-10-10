@@ -106,7 +106,7 @@ export class MailService {
 
 		switch (shippingType) {
 			case 'pickup':
-				deliveryDetails = '<p>Самовывоз в тц "Пирамида"</p>';
+				deliveryDetails = '<p>Самовывоз с Ригачина 47</p>';
 				break;
 			case 'cdek':
 				deliveryDetails = `<p>Выбран пункт СДЭК: ${address}</p>\
@@ -176,8 +176,7 @@ export class MailService {
 
 		switch (shippingType) {
 			case 'pickup':
-				deliveryDetails = `<p>После готовности заказ можно будет забрать в магазине "Твоя полка" \
-				в тц "Пирамида" по адресу: ул.Кирова д.19а (ежедневно с 10:00 до 20:00)</p>`;
+				deliveryDetails = `<p>Самовывоз осуществляется по адресу: ул. Ригачина, д. 47. Время оговаривается с менеджером.</p>`;
 				break;
 			case 'cdek':
 				deliveryDetails = `<p>Выбран пункт СДЭК: ${address}</p>`;
