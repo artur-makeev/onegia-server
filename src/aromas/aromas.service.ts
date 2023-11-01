@@ -38,14 +38,21 @@ export class AromasService {
 				return { id: item.aroma_category_id, name: item.aroma_category_name };
 			});
 
-			const filteredAromaCategories = aromaCategories.reduce((acc, current) => {
-				const x = acc.find(item => item.id === current.id);
-				if (!x) {
-					return acc.concat([current]);
-				} else {
-					return acc;
-				}
-			}, []);
+			const filteredAromaCategories: { id: number; name: string }[] =
+				aromaCategories.reduce((acc, current) => {
+					const x = acc.find(item => item.id === current.id);
+					if (!x) {
+						return acc.concat([current]);
+					} else {
+						return acc;
+					}
+				}, []);
+
+			filteredAromaCategories.sort(function (a, b) {
+				if (a.id < b.id) return -1;
+				if (a.id > b.id) return 1;
+				return 0;
+			});
 
 			const aromas = data.map(item => {
 				return {
