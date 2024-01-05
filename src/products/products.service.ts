@@ -15,7 +15,7 @@ export class ProductsService {
 			let limit: number = parseInt(query.limit);
 			let page: number = parseInt(query.page);
 			page = page || 1;
-			limit = +limit || 9;
+			limit = +limit || 10;
 			const offset = page * limit - limit;
 			let products;
 
