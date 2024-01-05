@@ -25,7 +25,7 @@ export class ProductsService {
 					attributes: { exclude: ['createdAt', 'updatedAt'] },
 					raw: true,
 					order: [['id', 'ASC']],
-					limit,
+					//	limit,
 					offset,
 				});
 			}
@@ -35,7 +35,7 @@ export class ProductsService {
 					attributes: { exclude: ['createdAt', 'updatedAt'] },
 					raw: true,
 					order: [['id', 'ASC']],
-					limit,
+					// limit,
 					offset,
 				});
 			}
