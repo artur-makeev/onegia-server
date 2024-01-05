@@ -39,10 +39,16 @@ export class ProductsService {
 					offset,
 				});
 			}
+
+			console.log(products.rows);
+
 			const orderedProducts = {
 				count: products.count,
 				rows: this.sortProducts(products.rows),
 			};
+
+			console.log('ordered products');
+			console.log(orderedProducts.rows);
 			return orderedProducts;
 		} catch (e) {
 			console.log(e.message);
