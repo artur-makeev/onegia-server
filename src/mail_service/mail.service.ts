@@ -120,6 +120,7 @@ export class MailService {
 				deliveryDetails = '<p>Яндекс Доставка</p>';
 				break;
 			default:
+				deliveryDetails = `Возможно у СДЭКА был сбой. Адрес доставки лучше уточнить: ${address}`;
 				console.log('mailservice shippingType error');
 				break;
 		}
